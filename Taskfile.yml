@@ -142,9 +142,9 @@ tasks:
       - echo "✅ Initialization complete!"
       - echo "📝 Next steps:"
       - echo "   1. Copy your Convex URL from the output above"
-      - echo "   2. Run: cp .env.example .env.local"
+      - echo "   2. Run - cp .env.example .env.local"
       - echo "   3. Update EXPO_PUBLIC_CONVEX_URL in .env.local"
-      - echo "   4. Run: task dev"
+      - echo "   4. Run - task dev"
 
   setup:
     desc: Setup project dependencies (use 'init' for first-time setup)
