@@ -25,7 +25,7 @@ describe("projects functions", () => {
     expect(projectId).toBeDefined();
 
     // List projects
-    const projects = await asUser.query(api.tasks.projects.list);
+    const projects = await asUser.query(api.tasks.projects.list, {});
     expect(projects).toHaveLength(1);
     expect(projects[0].name).toBe("Test Project");
     expect(projects[0].userId).toBe("user123");
@@ -52,8 +52,8 @@ describe("projects functions", () => {
     });
 
     // Each user should only see their own projects
-    const user1Projects = await user1.query(api.tasks.projects.list);
-    const user2Projects = await user2.query(api.tasks.projects.list);
+    const user1Projects = await user1.query(api.tasks.projects.list, {});
+    const user2Projects = await user2.query(api.tasks.projects.list, {});
 
     expect(user1Projects).toHaveLength(1);
     expect(user2Projects).toHaveLength(1);
@@ -138,14 +138,14 @@ describe("projects functions", () => {
     });
 
     // Verify it exists
-    const projects = await asUser.query(api.tasks.projects.list);
+    const projects = await asUser.query(api.tasks.projects.list, {});
     expect(projects).toHaveLength(1);
 
     // Delete project
     await asUser.mutation(api.tasks.projects.remove, { id: projectId });
 
     // Verify it's deleted
-    const projectsAfterDelete = await asUser.query(api.tasks.projects.list);
+    const projectsAfterDelete = await asUser.query(api.tasks.projects.list, {});
     expect(projectsAfterDelete).toHaveLength(0);
   });
 
@@ -202,7 +202,7 @@ describe("projects functions", () => {
     });
 
     // Verify display orders
-    const projects = await asUser.query(api.tasks.projects.list);
+    const projects = await asUser.query(api.tasks.projects.list, {});
     expect(projects).toHaveLength(3);
     
     const sortedProjects = projects.sort((a: any, b: any) => a.displayOrder - b.displayOrder);
@@ -247,7 +247,7 @@ describe("projects functions", () => {
     });
 
     // Verify new order
-    const projects = await asUser.query(api.tasks.projects.list);
+    const projects = await asUser.query(api.tasks.projects.list, {});
     expect(projects[0].name).toBe("Project B");
     expect(projects[0].displayOrder).toBe(1);
     
@@ -295,7 +295,7 @@ describe("projects functions", () => {
     expect(completedProjects[0].name).toBe("Completed Project");
 
     // Get all projects
-    const allProjects = await asUser.query(api.tasks.projects.list);
+    const allProjects = await asUser.query(api.tasks.projects.list, {});
     expect(allProjects).toHaveLength(2);
   });
 });
