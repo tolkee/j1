@@ -36,14 +36,17 @@ tasks:
     deps: [install]
     cmds:
       - echo "🚀 Starting development environment..."
-      - echo "📱 Starting Convex backend and mobile app in parallel..."
+      - echo "🔧 Starting Convex development server..."
+      - |
+        cd convex && pnpm dev &
+        sleep 5
+      - echo "🔄 Syncing API types..."
+      - task: convex:sync-api
+      - echo "📱 Starting mobile app..."
       - echo "🔗 Convex - http://localhost:3000"
       - echo "📱 Expo - http://localhost:8081" 
       - echo "⚠️  Keep this terminal open for both services"
-      - |
-        # Start Convex in background and app in foreground
-        cd convex && pnpm dev &
-        cd app && yarn dev
+      - task: app:dev
 
   build:
     desc: Build the entire project
@@ -96,6 +99,12 @@ tasks:
     desc: Configure Convex project (creates convex.json without starting dev server)
     dir: convex
     cmd: npx convex dev --configure --once
+
+  convex:stop:
+    desc: Stop Convex development server
+    cmd: |
+      pkill -f "pnpm dev" || echo "No Convex dev server running"
+      pkill -f "convex dev" || echo "No Convex process found"
 
   # ========================================
   # MOBILE APP TASKS
