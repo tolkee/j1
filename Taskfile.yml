@@ -103,8 +103,8 @@ tasks:
   convex:stop:
     desc: Stop Convex development server
     cmd: |
-      pkill -f "pnpm dev" || echo "No Convex dev server running"
-      pkill -f "convex dev" || echo "No Convex process found"
+      pkill -f "convex/bin/main.js dev" || echo "No Convex dev server running"
+      pkill -f "pnpm dev" || echo "No pnpm dev process found"
 
   # ========================================
   # MOBILE APP TASKS

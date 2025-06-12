@@ -42,9 +42,6 @@ yarn-error.*
 # Typescript
 *.tsbuildinfo
 
-# Tamagui
-tamagui-web.css
-
 # Convex
 convex/_generated/
 convex/node_modules/
