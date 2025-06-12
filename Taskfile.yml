@@ -36,8 +36,14 @@ tasks:
     deps: [install]
     cmds:
       - echo "🚀 Starting development environment..."
-      - task: convex:dev &
-      - task: app:dev
+      - echo "📱 Starting Convex backend and mobile app in parallel..."
+      - echo "🔗 Convex: http://localhost:3000"
+      - echo "📱 Expo: http://localhost:8081" 
+      - echo "⚠️  Keep this terminal open for both services"
+      - |
+        # Start Convex in background and app in foreground
+        cd convex && pnpm dev &
+        cd app && pnpm dev
 
   build:
     desc: Build the entire project
