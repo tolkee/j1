@@ -24,7 +24,7 @@ tasks:
   install:convex:
     internal: true
     dir: convex
-    cmd: npm install
+    cmd: pnpm install
 
   install:app:
     internal: true
@@ -54,12 +54,12 @@ tasks:
   convex:dev:
     desc: Start Convex development server
     dir: convex
-    cmd: npm run dev
+    cmd: pnpm dev
 
   convex:deploy:
     desc: Deploy Convex to production
     dir: convex
-    cmd: npm run deploy
+    cmd: pnpm deploy
 
   convex:build:
     desc: Build Convex backend
@@ -69,17 +69,17 @@ tasks:
   convex:test:
     desc: Run Convex tests
     dir: convex
-    cmd: npm run test
+    cmd: pnpm test
 
   convex:test:watch:
     desc: Run Convex tests in watch mode
     dir: convex
-    cmd: npm run test -- --watch
+    cmd: pnpm test -- --watch
 
   convex:sync-api:
     desc: Generate and sync API types to frontend
     dir: convex
-    cmd: npm run sync-api
+    cmd: pnpm sync-api
 
   # ========================================
   # MOBILE APP TASKS
@@ -179,7 +179,7 @@ tasks:
   lint:convex:
     internal: true
     dir: convex
-    cmd: npm run lint || echo "⚠️ Convex linting not configured"
+    cmd: pnpm lint || echo "⚠️ Convex linting not configured"
 
   format:
     desc: Format all code
@@ -196,7 +196,7 @@ tasks:
   format:convex:
     internal: true
     dir: convex
-    cmd: npm run format || echo "⚠️ Convex formatting not configured"
+    cmd: pnpm format || echo "⚠️ Convex formatting not configured"
 
   # ========================================
   # DOCUMENTATION TASKS
@@ -224,7 +224,7 @@ tasks:
     internal: true
     dir: convex
     cmd: |
-      echo "Convex dependencies:" && npm list --depth=0 2>/dev/null | head -10 || echo "Run 'task install' first"
+      echo "Convex dependencies:" && pnpm list --depth=0 2>/dev/null | head -10 || echo "Run 'task install' first"
 
   status:app:
     internal: true

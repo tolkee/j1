@@ -284,10 +284,10 @@ task convex:sync-api
 
 # Or run directly in convex folder:
 cd convex
-npm run dev          # Start development server
-npm run deploy       # Deploy to production
-npm run test         # Run tests
-npm run sync-api     # Generate API types
+pnpm dev             # Start development server
+pnpm deploy          # Deploy to production
+pnpm test            # Run tests
+pnpm sync-api        # Generate API types
 ```
 
 ## 📊 Best Practices

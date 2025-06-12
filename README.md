@@ -148,7 +148,7 @@ function MyComponent() {
 
 - **Node.js** 18+ 
 - **Yarn** (for mobile app)
-- **npm** (for backend)
+- **pnpm** (for backend)
 - **Task** (install with `brew install go-task/tap/go-task` on macOS)
 - **Expo CLI** (`npm install -g @expo/cli`)
 
@@ -203,7 +203,7 @@ This template is specifically designed for AI coding assistants:
    # or download from: https://taskfile.dev/installation/
    
    # Install global dependencies
-   npm install -g convex @expo/cli
+   npm install -g convex @expo/cli pnpm
    ```
 
 ### Step 1: Project Setup
