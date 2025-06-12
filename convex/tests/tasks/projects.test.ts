@@ -1,8 +1,8 @@
 import { convexTest } from "convex-test";
 import { expect, test, describe, beforeEach } from "vitest";
-import { api } from "../_generated/api";
-import schema from "../src/schema";
-import modules from "../src/_generated/modules";
+import { api } from "../../src/_generated/api";
+import schema from "../../src/schema";
+import { modules } from "../modules";
 
 describe("projects functions", () => {
   let t: ReturnType<typeof convexTest>;
@@ -205,7 +205,7 @@ describe("projects functions", () => {
     const projects = await asUser.query(api.tasks.projects.list);
     expect(projects).toHaveLength(3);
     
-    const sortedProjects = projects.sort((a, b) => a.displayOrder - b.displayOrder);
+    const sortedProjects = projects.sort((a: any, b: any) => a.displayOrder - b.displayOrder);
     expect(sortedProjects[0].name).toBe("First Project");
     expect(sortedProjects[0].displayOrder).toBe(1);
     expect(sortedProjects[0].isDefault).toBe(true);

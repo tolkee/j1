@@ -17,7 +17,6 @@ export const getAllUsers = query({
       emailVerified: v.optional(v.number()),
       preferredName: v.optional(v.string()),
       timezone: v.optional(v.string()),
-      welcomeMessagePreference: v.optional(v.string()),
       createdAt: v.optional(v.number()),
       updatedAt: v.optional(v.number()),
     })
@@ -126,32 +125,41 @@ export const deleteUser = mutation({
       await ctx.db.delete(settings._id);
     }
 
-    // Delete welcome messages
-    const welcomeMessages = await ctx.db
-      .query("welcomeMessages")
+    // Delete user's projects and tasks
+    const projects = await ctx.db
+      .query("projects")
       .filter((q) => q.eq(q.field("userId"), args.userId))
       .collect();
-    for (const message of welcomeMessages) {
-      await ctx.db.delete(message._id);
+    
+    for (const project of projects) {
+      // Delete all tasks in this project
+      const tasks = await ctx.db
+        .query("tasks")
+        .filter((q) => q.eq(q.field("projectId"), project._id))
+        .collect();
+      for (const task of tasks) {
+        await ctx.db.delete(task._id);
+      }
+      // Delete the project
+      await ctx.db.delete(project._id);
     }
 
-    // Delete conversations and messages
-    const conversations = await ctx.db
-      .query("conversations")
+    // Delete user's notes
+    const notes = await ctx.db
+      .query("notes")
       .filter((q) => q.eq(q.field("userId"), args.userId))
       .collect();
+    for (const note of notes) {
+      await ctx.db.delete(note._id);
+    }
 
-    for (const conversation of conversations) {
-      // Delete all messages in this conversation
-      const messages = await ctx.db
-        .query("messages")
-        .filter((q) => q.eq(q.field("conversationId"), conversation._id))
-        .collect();
-      for (const message of messages) {
-        await ctx.db.delete(message._id);
-      }
-      // Delete the conversation
-      await ctx.db.delete(conversation._id);
+    // Delete user's documents
+    const documents = await ctx.db
+      .query("documents")
+      .filter((q) => q.eq(q.field("userId"), args.userId))
+      .collect();
+    for (const document of documents) {
+      await ctx.db.delete(document._id);
     }
 
     // Finally delete the user
@@ -177,7 +185,6 @@ export const getCurrentUser = query({
       name: v.optional(v.string()),
       image: v.optional(v.string()),
       emailVerified: v.optional(v.number()),
-      welcomeMessagePreference: v.optional(v.string()),
       preferredName: v.optional(v.string()),
       timezone: v.optional(v.string()),
       createdAt: v.optional(v.number()),
@@ -203,7 +210,6 @@ export const updateProfile = mutation({
     name: v.optional(v.string()),
     preferredName: v.optional(v.string()),
     timezone: v.optional(v.string()),
-    welcomeMessagePreference: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
@@ -221,9 +227,6 @@ export const updateProfile = mutation({
     if (args.preferredName !== undefined)
       updates.preferredName = args.preferredName;
     if (args.timezone !== undefined) updates.timezone = args.timezone;
-    if (args.welcomeMessagePreference !== undefined) {
-      updates.welcomeMessagePreference = args.welcomeMessagePreference;
-    }
     updates.updatedAt = Date.now();
 
     await ctx.db.patch(userId, updates);
@@ -252,20 +255,14 @@ export const initializeUserData = mutation({
     }
 
     // Check if user data is already initialized
-    const existingWelcomeMessage = await ctx.db
-      .query("welcomeMessages")
-      .withIndex("by_user", (q) => q.eq("userId", userId))
+    const existingSettings = await ctx.db
+      .query("userSettings")
+      .filter((q) => q.eq(q.field("userId"), userId))
       .first();
 
-    if (existingWelcomeMessage) {
+    if (existingSettings) {
       return { success: true, message: "User data already initialized" };
     }
-
-    // Create default welcome message configuration
-    await ctx.db.insert("welcomeMessages", {
-      userId,
-      isActive: true,
-    });
 
     // Create default user settings
     await ctx.db.insert("userSettings", {
@@ -273,11 +270,12 @@ export const initializeUserData = mutation({
       theme: "light",
       language: "en",
       notificationsEnabled: true,
+      welcomeMessageSeen: false,
     });
 
     // Update user profile with defaults
     await ctx.db.patch(userId, {
-      welcomeMessagePreference: "personalized",
+      createdAt: Date.now(),
       updatedAt: Date.now(),
     });
 

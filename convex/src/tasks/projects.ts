@@ -26,7 +26,7 @@ export const list = query({
       query = ctx.db
         .query("projects")
         .withIndex("by_user_and_status", (q) => 
-          q.eq("userId", userId).eq("status", args.status)
+          q.eq("userId", userId).eq("status", args.status!)
         );
     }
 
@@ -169,7 +169,7 @@ export const update = mutation({
       const duplicateProject = await ctx.db
         .query("projects")
         .withIndex("by_user", (q) => q.eq("userId", userId))
-        .filter((q) => q.eq(q.field("name"), args.name.trim()))
+        .filter((q) => q.eq(q.field("name"), args.name!.trim()))
         .first();
 
       if (duplicateProject && duplicateProject._id !== args.id) {
