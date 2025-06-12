@@ -133,7 +133,7 @@ export default function RegisterScreen() {
 
               <YStack alignItems="center" gap="$2">
                 <H2 color="$color" textAlign="center">
-                  Welcome to the Workshop
+                  Create your account
                 </H2>
                 <Text
                   fontSize="$4"
@@ -142,8 +142,7 @@ export default function RegisterScreen() {
                   maxWidth={280}
                   lineHeight="$2"
                 >
-                  Time to build your digital assistant — no arc reactor
-                  required, just an email
+                  Join us to start organizing your tasks and boost your productivity
                 </Text>
               </YStack>
             </YStack>

@@ -78,7 +78,7 @@ export default function LoginScreen() {
 
               <YStack alignItems="center" gap="$2">
                 <H2 color="$color" textAlign="center">
-                  Good morning, Mr. Stark
+                  Welcome back
                 </H2>
                 <Text
                   fontSize="$4"
@@ -87,8 +87,7 @@ export default function LoginScreen() {
                   maxWidth={280}
                   lineHeight="$2"
                 >
-                  Jarvis is here to help with everything in your life — no arc
-                  reactor required
+                  Sign in to manage your tasks and stay organized
                 </Text>
               </YStack>
             </YStack>

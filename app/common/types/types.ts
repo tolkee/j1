@@ -1,21 +1,30 @@
-import { GetThemeValueForKey } from "tamagui";
-
-export interface JarvisService {
+// Basic types for the task management app
+export interface User {
   id: string;
   name: string;
-  icon: string; // Icon name from @tamagui/lucide-icons
-  color: GetThemeValueForKey<"backgroundColor">; // Vivid background color
-  route: string; // Navigation route
-  enabled: boolean;
+  email: string;
 }
 
-export interface ServiceNode {
+export interface Project {
   id: string;
-  service: JarvisService;
-  x: number;
-  y: number;
-  vx?: number;
-  vy?: number;
-  fx?: number | null;
-  fy?: number | null;
+  name: string;
+  description?: string;
+  color: string;
+  icon: string;
+  status: "active" | "completed" | "archived";
+  createdAt: number;
+  updatedAt: number;
+}
+
+export interface Task {
+  id: string;
+  title: string;
+  description?: string;
+  projectId: string;
+  status: "todo" | "in_progress" | "completed";
+  priority: "low" | "medium" | "high";
+  dueDate?: number;
+  completedAt?: number;
+  createdAt: number;
+  updatedAt: number;
 }
