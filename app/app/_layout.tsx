@@ -87,7 +87,7 @@ function RootLayoutNav() {
         />
 
         <Stack.Screen
-          name="finance"
+          name="tasks"
           options={{
             headerShown: false,
           }}

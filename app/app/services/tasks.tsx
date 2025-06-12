@@ -1,13 +1,13 @@
 import React from "react";
 import { View, YStack, Text } from "tamagui";
-import { DollarSign } from "@tamagui/lucide-icons";
+import { CheckSquare } from "@tamagui/lucide-icons";
 
-export default function FinanceScreen() {
+export default function TasksScreen() {
   return (
     <View flex={1} backgroundColor="$background">
       {/* Header */}
       <View
-        backgroundColor="$green10"
+        backgroundColor="$blue10"
         paddingHorizontal="$4"
         paddingVertical="$4"
         paddingTop="$8"
@@ -17,7 +17,7 @@ export default function FinanceScreen() {
         shadowRadius={4}
       >
         <Text fontSize="$8" fontWeight="bold" color="white">
-          Finance Tracker
+          Task Manager
         </Text>
       </View>
 
@@ -33,22 +33,21 @@ export default function FinanceScreen() {
         <View
           width={100}
           height={100}
-          backgroundColor="$green10"
+          backgroundColor="$blue10"
           borderRadius={50}
           alignItems="center"
           justifyContent="center"
           marginBottom="$4"
         >
-          <DollarSign size={50} color="white" strokeWidth={2} />
+          <CheckSquare size={50} color="white" strokeWidth={2} />
         </View>
 
         <Text fontSize="$6" fontWeight="600" color="$color" textAlign="center">
-          Finance Tracker
+          Task Management
         </Text>
         <Text fontSize="$4" color="$color" textAlign="center" maxWidth={300}>
-          Log expenses & income automatically and manually. Detect and highlight
-          recurring subscriptions. Generate monthly summaries & savings
-          insights.
+          Organize your work with projects and tasks. Set priorities, due dates, 
+          and track progress. A complete example service demonstrating the template patterns.
         </Text>
       </YStack>
     </View>

@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "fullstack-template-mobile",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "packageManager": "yarn@4.5.0",

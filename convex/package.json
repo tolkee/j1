@@ -1,7 +1,7 @@
 {
-  "name": "jarvis-convex",
+  "name": "fullstack-template-backend",
   "version": "1.0.0",
-  "description": "Jarvis Convex Backend",
+  "description": "Fullstack Mobile Template - Convex Backend",
   "private": true,
   "scripts": {
     "dev": "convex dev",
