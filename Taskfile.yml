@@ -37,8 +37,8 @@ tasks:
     cmds:
       - echo "🚀 Starting development environment..."
       - echo "📱 Starting Convex backend and mobile app in parallel..."
-      - echo "🔗 Convex: http://localhost:3000"
-      - echo "📱 Expo: http://localhost:8081" 
+      - echo "🔗 Convex - http://localhost:3000"
+      - echo "📱 Expo - http://localhost:8081" 
       - echo "⚠️  Keep this terminal open for both services"
       - |
         # Start Convex in background and app in foreground
