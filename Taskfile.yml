@@ -43,7 +43,7 @@ tasks:
       - |
         # Start Convex in background and app in foreground
         cd convex && pnpm dev &
-        cd app && pnpm dev
+        cd app && yarn dev
 
   build:
     desc: Build the entire project
