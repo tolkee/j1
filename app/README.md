@@ -151,20 +151,30 @@ function MyComponent() {
 ## 🛠 Development Commands
 
 ```bash
+# From project root - use these task commands:
+
 # Start development server
-yarn start
+task app:dev
 
 # Run on iOS simulator
-yarn ios
+task app:ios
 
-# Run on Android emulator
-yarn android
+# Run on Android emulator  
+task app:android
 
 # Run on web browser
-yarn web
+task app:web
 
 # Run tests
-yarn test
+task app:test
+
+# Or run directly in app folder:
+cd app
+yarn start       # Start development server
+yarn ios         # Run on iOS simulator
+yarn android     # Run on Android emulator
+yarn web         # Run on web browser
+yarn test        # Run tests
 ```
 
 ## 🧪 Testing
@@ -265,7 +275,12 @@ function MyComponent() {
 ### Development Build
 
 ```bash
-yarn build
+# From project root
+task app:build
+
+# Or directly in app folder
+cd app
+npx expo export
 ```
 
 ### Production Build
@@ -277,8 +292,8 @@ eas build --platform ios
 # Android  
 eas build --platform android
 
-# Web
-yarn build:web
+# Web (if configured)
+npx expo export --platform web
 ```
 
 ## 📖 Learning Resources

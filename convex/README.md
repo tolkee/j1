@@ -265,20 +265,29 @@ function MyComponent() {
 ## 🛠 Development Commands
 
 ```bash
-# Start development server
-npm run dev
+# From project root - use these task commands:
 
-# Deploy to production
-npm run deploy
+# Start development server
+task convex:dev
+
+# Deploy to production  
+task convex:deploy
 
 # Run tests
-npm run test
+task convex:test
 
 # Run tests in watch mode
-npm run test:watch
+task convex:test:watch
 
-# Generate API types
-npm run sync-api
+# Generate and sync API types
+task convex:sync-api
+
+# Or run directly in convex folder:
+cd convex
+npm run dev          # Start development server
+npm run deploy       # Deploy to production
+npm run test         # Run tests
+npm run sync-api     # Generate API types
 ```
 
 ## 📊 Best Practices
