@@ -307,3 +307,58 @@ export const getStats = query({
     return stats;
   },
 });
+
+/**
+ * Generate weekly project summary (used by cron job)
+ * Creates a summary of project activity for the past week
+ */
+export const generateWeeklySummary = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const oneWeekAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+    
+    // Get all active projects
+    const projects = await ctx.db
+      .query("projects")
+      .filter((q) => q.eq(q.field("status"), "active"))
+      .collect();
+
+    const summaries = [];
+    
+    for (const project of projects) {
+      // Get tasks completed this week
+      const completedThisWeek = await ctx.db
+        .query("tasks")
+        .filter((q) => 
+          q.and(
+            q.eq(q.field("projectId"), project._id),
+            q.eq(q.field("status"), "completed"),
+            q.gte(q.field("completedAt"), oneWeekAgo)
+          )
+        )
+        .collect();
+
+      // Get tasks created this week
+      const createdThisWeek = await ctx.db
+        .query("tasks")
+        .filter((q) => 
+          q.and(
+            q.eq(q.field("projectId"), project._id),
+            q.gte(q.field("createdAt"), oneWeekAgo)
+          )
+        )
+        .collect();
+
+      summaries.push({
+        projectId: project._id,
+        projectName: project.name,
+        tasksCompleted: completedThisWeek.length,
+        tasksCreated: createdThisWeek.length,
+        weekEnding: new Date().toISOString(),
+      });
+    }
+
+    console.log(`Generated weekly summary for ${summaries.length} projects`);
+    return { success: true, summaries };
+  },
+});

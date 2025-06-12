@@ -417,3 +417,35 @@ export const search = query({
     return matchingTasks.sort((a, b) => b.updatedAt - a.updatedAt);
   },
 });
+
+/**
+ * Cleanup old completed tasks (used by cron job)
+ * Removes completed tasks older than 30 days
+ */
+export const cleanupOldTasks = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
+    
+    // Find old completed tasks
+    const oldTasks = await ctx.db
+      .query("tasks")
+      .filter((q) => 
+        q.and(
+          q.eq(q.field("status"), "completed"),
+          q.lt(q.field("completedAt"), thirtyDaysAgo)
+        )
+      )
+      .collect();
+
+    // Delete old tasks
+    let deletedCount = 0;
+    for (const task of oldTasks) {
+      await ctx.db.delete(task._id);
+      deletedCount++;
+    }
+
+    console.log(`Cleaned up ${deletedCount} old completed tasks`);
+    return { success: true, deletedCount };
+  },
+});
