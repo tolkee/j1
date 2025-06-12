@@ -87,9 +87,9 @@ tasks:
     cmd: npx convex login
 
   convex:configure:
-    desc: Configure Convex project (creates convex.json and starts dev server)
+    desc: Configure Convex project (creates convex.json without starting dev server)
     dir: convex
-    cmd: npx convex dev --configure
+    cmd: npx convex dev --configure --once
 
   # ========================================
   # MOBILE APP TASKS
@@ -141,10 +141,10 @@ tasks:
       - task: convex:sync-api
       - echo "✅ Initialization complete!"
       - echo "📝 Next steps:"
-      - echo "   1. Copy your Convex URL from the output above"
+      - echo "   1. Copy your Convex URL from the configuration output above"
       - echo "   2. Run - cp .env.example .env.local"
-      - echo "   3. Update EXPO_PUBLIC_CONVEX_URL in .env.local"
-      - echo "   4. Run - task dev"
+      - echo "   3. Update EXPO_PUBLIC_CONVEX_URL in .env.local with your URL"
+      - echo "   4. Run - task dev to start development"
 
   clean:
     desc: Clean all build artifacts and dependencies
