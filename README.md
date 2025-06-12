@@ -5,18 +5,55 @@ A production-ready fullstack mobile application template built for AI developmen
 ## 🎯 Quick Start
 
 ```bash
-# Clone the repository
+# 1. Clone the repository
 git clone <your-repo-url>
 cd fullstack-mobile-template
 
-# Setup everything in one command
+# 2. Install dependencies
 task setup
-
-# Start development
-task dev
 ```
 
-That's it! You now have a fully functional mobile app with backend running.
+**⚠️ IMPORTANT: Before starting development, you need to configure Convex:**
+
+### 3. Setup Convex Backend
+
+1. **Create Convex Account**: Go to [convex.dev](https://convex.dev) and sign up
+2. **Install Convex CLI**: `npm install -g convex`
+3. **Login to Convex**: `npx convex login`
+4. **Initialize your project**: 
+   ```bash
+   cd convex
+   npx convex dev --configure
+   ```
+   This will:
+   - Create a new Convex project
+   - Generate your deployment URL
+   - Start the development server
+
+### 4. Configure Environment Variables
+
+1. **Copy environment template**:
+   ```bash
+   cp .env.example .env.local
+   ```
+
+2. **Update `.env.local`** with your Convex URL (from step 3):
+   ```bash
+   EXPO_PUBLIC_CONVEX_URL=https://your-deployment-url.convex.cloud
+   ```
+
+### 5. Start Development
+
+```bash
+# Start everything (backend + mobile app)
+task dev
+
+# OR start separately for debugging:
+task convex:dev  # Terminal 1
+task app:dev     # Terminal 2
+```
+
+**🎉 That's it! You now have a fully functional mobile app with backend running.**
 
 ## 📋 What's Included
 
@@ -154,40 +191,151 @@ This template is specifically designed for AI coding assistants:
 - **Consistent Patterns**: Follows established patterns that AI can replicate
 - **Task Automation**: Simple commands that AI can execute
 
-## 🚀 Getting Started Guide
+## 🚀 Detailed Getting Started Guide
 
-### 1. Initial Setup
+### Prerequisites Setup
+
+1. **Install Required Tools**:
+   ```bash
+   # Node.js 18+ (check: node --version)
+   # Install Task runner
+   brew install go-task/tap/go-task  # macOS
+   # or download from: https://taskfile.dev/installation/
+   
+   # Install global dependencies
+   npm install -g convex @expo/cli
+   ```
+
+### Step 1: Project Setup
+
 ```bash
-# Clone and setup
-git clone <your-repo>
+# Clone and install dependencies
+git clone <your-repo-url>
 cd fullstack-mobile-template
 task setup
 ```
 
-### 2. Configure Convex
-```bash
-# Login to Convex (first time only)
-cd convex && npx convex login
+### Step 2: Convex Backend Configuration
 
-# Initialize your project
-npx convex dev --configure
-```
+1. **Create Convex Account**:
+   - Go to [convex.dev](https://convex.dev)
+   - Sign up with GitHub, Google, or email
+   - No payment required for development
 
-### 3. Start Developing
+2. **Setup Your Convex Project**:
+   ```bash
+   # Login to Convex (opens browser for auth)
+   npx convex login
+   
+   # Navigate to backend and initialize
+   cd convex
+   npx convex dev --configure
+   ```
+   
+   **What this does**:
+   - Creates a new Convex project in your dashboard
+   - Generates a unique deployment URL
+   - Creates `convex.json` with your project configuration
+   - Starts the development server
+   - **Important**: Keep this terminal open during development
+
+3. **Copy Your Deployment URL**:
+   - After `npx convex dev --configure`, you'll see output like:
+   ```
+   ✓ Convex functions ready! (convex dev is running)
+   │ Your deployment URL: https://happy-animal-123.convex.cloud
+   ```
+   - Copy this URL for the next step
+
+### Step 3: Environment Configuration
+
+1. **Create Environment File**:
+   ```bash
+   # From project root
+   cp .env.example .env.local
+   ```
+
+2. **Configure `.env.local`**:
+   ```bash
+   # Replace with YOUR deployment URL from Step 2
+   EXPO_PUBLIC_CONVEX_URL=https://happy-animal-123.convex.cloud
+   ```
+   
+   **⚠️ Important**: 
+   - Use your actual deployment URL from Convex
+   - The URL format is always `https://[unique-name].convex.cloud`
+   - Don't include quotes around the URL
+
+### Step 4: Start Development
+
 ```bash
-# Start everything
+# Option 1: Start everything together (recommended)
 task dev
 
-# Or start separately
-task convex:dev  # Terminal 1
-task app:dev     # Terminal 2
+# Option 2: Start separately for debugging
+task convex:dev  # Terminal 1 - Backend (if not already running)
+task app:dev     # Terminal 2 - Mobile app
 ```
 
-### 4. Add Your First Feature
-1. Define your data schema in `convex/src/schema.ts`
-2. Create backend functions in `convex/src/`
-3. Sync API types: `task convex:sync-api`
-4. Build your UI in `app/`
+**What you'll see**:
+- Convex terminal: Functions compilation and sync status
+- Expo terminal: QR code and development server
+- Mobile app: Running on simulator/device/web
+
+### Step 5: Verify Everything Works
+
+1. **Check Convex Dashboard**:
+   - Go to [dashboard.convex.dev](https://dashboard.convex.dev)
+   - You should see your project with the tasks schema
+   - Data browser shows your database tables
+
+2. **Test Mobile App**:
+   - Scan QR code with Expo Go app, or
+   - Press `i` for iOS simulator, or
+   - Press `a` for Android emulator, or
+   - Press `w` for web browser
+
+3. **Initialize Example Service**:
+   - The app includes a task management example
+   - First run will create sample data automatically
+
+### Step 6: Development Workflow
+
+```bash
+# Sync API types after backend changes
+task convex:sync-api
+
+# Run tests
+task test
+
+# Build for production
+task build
+```
+
+### Troubleshooting
+
+**Common Issues**:
+
+1. **"EXPO_PUBLIC_CONVEX_URL is not defined"**:
+   - Check `.env.local` exists and has correct URL
+   - Restart Expo dev server: `task app:dev`
+
+2. **"Authentication required" errors**:
+   - Convex may need re-login: `npx convex login`
+   - Check Convex dev server is running
+
+3. **"Module not found" errors**:
+   - Clear caches: `task clean && task install`
+   - For Expo: `npx expo start --clear`
+
+4. **API types out of sync**:
+   - Run: `task convex:sync-api`
+   - Restart development servers
+
+**Getting Help**:
+- Check the comprehensive docs in `docs/` folder
+- Convex docs: [docs.convex.dev](https://docs.convex.dev)
+- Expo docs: [docs.expo.dev](https://docs.expo.dev)
 
 ## 📝 License
 

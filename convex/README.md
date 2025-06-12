@@ -376,12 +376,36 @@ npx convex env set VARIABLE_NAME value
 
 ### Environment Variables
 
-Store sensitive configuration in Convex environment variables:
+**Important**: Backend environment variables are managed through Convex, not `.env` files.
+
+#### Setting Backend Environment Variables
 
 ```bash
+# List current environment variables
+npx convex env list
+
+# Set a new environment variable
 npx convex env set EMAIL_API_KEY your-api-key
-npx convex env set WEBHOOK_SECRET your-secret
+npx convex env set WEBHOOK_SECRET your-webhook-secret
+
+# Remove an environment variable
+npx convex env unset VARIABLE_NAME
 ```
+
+#### Frontend Environment Variables
+
+Frontend environment variables go in the mobile app's `.env.local`:
+
+```bash
+# Mobile app environment (in project root)
+EXPO_PUBLIC_CONVEX_URL=https://your-deployment.convex.cloud
+```
+
+**Key Points**:
+- **Backend vars**: Set via `npx convex env set` (secure, server-side only)
+- **Frontend vars**: Set in `.env.local` with `EXPO_PUBLIC_` prefix (client-side accessible)
+- Never put sensitive keys in frontend environment variables
+- Frontend variables are bundled with the app and visible to users
 
 ## 📖 Resources
 
