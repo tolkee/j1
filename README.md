@@ -13,19 +13,9 @@ cd fullstack-mobile-template
 task init
 ```
 
-### 3. Configure Environment Variables
+### 3. Start Development
 
-1. **Copy environment template**:
-   ```bash
-   cp .env.example .env.local
-   ```
-
-2. **Update `.env.local`** with your Convex URL (from the init step):
-   ```bash
-   EXPO_PUBLIC_CONVEX_URL=https://your-deployment-url.convex.cloud
-   ```
-
-### 4. Start Development
+The `task init` command automatically configures everything, including creating `.env.local` with your Convex URL.
 
 ```bash
 # Start everything (backend + mobile app)
@@ -207,26 +197,9 @@ task init
    │ Your deployment URL: https://happy-animal-123.convex.cloud
    ```
 
-### Step 2: Environment Configuration
+### Step 2: Start Development
 
-1. **Create Environment File**:
-   ```bash
-   # From project root
-   cp .env.example .env.local
-   ```
-
-2. **Configure `.env.local`**:
-   ```bash
-   # Replace with YOUR deployment URL from the init process
-   EXPO_PUBLIC_CONVEX_URL=https://happy-animal-123.convex.cloud
-   ```
-   
-   **⚠️ Important**: 
-   - Use your actual deployment URL from Convex
-   - The URL format is always `https://[unique-name].convex.cloud`
-   - Don't include quotes around the URL
-
-### Step 3: Start Development
+The `task init` command automatically handles environment configuration, including creating `.env.local` with your Convex URL.
 
 ```bash
 # Option 1: Start everything together (recommended)
@@ -242,7 +215,7 @@ task app:dev     # Terminal 2 - Mobile app
 - Expo terminal: QR code and development server
 - Mobile app: Running on simulator/device/web
 
-### Step 4: Verify Everything Works
+### Step 3: Verify Everything Works
 
 1. **Check Convex Dashboard**:
    - Go to [dashboard.convex.dev](https://dashboard.convex.dev)
@@ -259,7 +232,7 @@ task app:dev     # Terminal 2 - Mobile app
    - The app includes a task management example
    - First run will create sample data automatically
 
-### Step 5: Development Workflow
+### Step 4: Development Workflow
 
 ```bash
 # Sync API types after backend changes

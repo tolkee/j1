@@ -139,12 +139,24 @@ tasks:
       - task: convex:configure
       - echo "🔄 Syncing API types..."
       - task: convex:sync-api
+      - echo "⚙️ Setting up environment file..."
+      - cp .env.example .env.local
+      - |
+        if [ -f convex/.env.local ]; then
+          CONVEX_URL=$(grep CONVEX_URL convex/.env.local | cut -d '=' -f2)
+          if [ ! -z "$CONVEX_URL" ]; then
+            sed -i.bak "s|EXPO_PUBLIC_CONVEX_URL=.*|EXPO_PUBLIC_CONVEX_URL=$CONVEX_URL|" .env.local && rm .env.local.bak
+            echo "✅ Automatically configured EXPO_PUBLIC_CONVEX_URL=$CONVEX_URL"
+          else
+            echo "⚠️ Could not extract Convex URL. Please update .env.local manually."
+          fi
+        else
+          echo "⚠️ Convex .env.local not found. Please update .env.local manually."
+        fi
       - echo "✅ Initialization complete!"
       - echo "📝 Next steps:"
-      - echo "   1. Copy your Convex URL from the configuration output above"
-      - echo "   2. Run - cp .env.example .env.local"
-      - echo "   3. Update EXPO_PUBLIC_CONVEX_URL in .env.local with your URL"
-      - echo "   4. Run - task dev to start development"
+      - echo "   1. Verify EXPO_PUBLIC_CONVEX_URL in .env.local is correct"
+      - echo "   2. Run - task dev to start development"
 
   clean:
     desc: Clean all build artifacts and dependencies
