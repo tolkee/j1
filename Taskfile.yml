@@ -184,8 +184,10 @@ tasks:
     desc: Show project status
     cmds:
       - echo "📋 Project Status:"
-      - echo "Backend: Convex"
-      - echo "Frontend: React Native + Expo"
-      - echo "UI: Tamagui"
-      - cd convex && echo "Convex dependencies:" && npm list --depth=0 2>/dev/null | head -10 || echo "Run 'task install' first"
-      - cd app && echo "App dependencies:" && yarn list --depth=0 2>/dev/null | head -10 || echo "Run 'task install' first"
+      - echo "Backend{{":"}} Convex"
+      - echo "Frontend{{":"}} React Native + Expo"
+      - echo "UI{{":"}} Tamagui"
+      - |
+        cd convex && echo "Convex dependencies:" && npm list --depth=0 2>/dev/null | head -10 || echo "Run 'task install' first"
+      - |
+        cd app && echo "App dependencies:" && yarn list --depth=0 2>/dev/null | head -10 || echo "Run 'task install' first"
