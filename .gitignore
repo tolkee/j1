@@ -49,6 +49,10 @@ tamagui-web.css
 convex/_generated/
 convex/node_modules/
 
+# Auto-generated API files
+app/common/lib/api.ts
+convex/api.ts
+
 # IDE
 .vscode/
 .idea/
