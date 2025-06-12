@@ -81,6 +81,16 @@ tasks:
     dir: convex
     cmd: pnpm sync-api
 
+  convex:login:
+    desc: Login to Convex (required for first-time setup)
+    dir: convex
+    cmd: npx convex login
+
+  convex:configure:
+    desc: Configure Convex project (creates convex.json and starts dev server)
+    dir: convex
+    cmd: npx convex dev --configure
+
   # ========================================
   # MOBILE APP TASKS
   # ========================================
@@ -119,8 +129,25 @@ tasks:
   # SETUP & MAINTENANCE TASKS
   # ========================================
   
+  init:
+    desc: Initialize new project (first-time setup with Convex configuration)
+    cmds:
+      - echo "🚀 Initializing new Fullstack Template project..."
+      - task: install
+      - echo "🔐 Setting up Convex backend..."
+      - task: convex:login
+      - task: convex:configure
+      - echo "🔄 Syncing API types..."
+      - task: convex:sync-api
+      - echo "✅ Initialization complete!"
+      - echo "📝 Next steps:"
+      - echo "   1. Copy your Convex URL from the output above"
+      - echo "   2. Run: cp .env.example .env.local"
+      - echo "   3. Update EXPO_PUBLIC_CONVEX_URL in .env.local"
+      - echo "   4. Run: task dev"
+
   setup:
-    desc: Complete project setup from scratch
+    desc: Setup project dependencies (use 'init' for first-time setup)
     cmds:
       - echo "🎯 Setting up Fullstack Template..."
       - task: install

@@ -9,40 +9,23 @@ A production-ready fullstack mobile application template built for AI developmen
 git clone <your-repo-url>
 cd fullstack-mobile-template
 
-# 2. Install dependencies
-task setup
+# 2. First-time setup (includes Convex configuration)
+task init
 ```
 
-**⚠️ IMPORTANT: Before starting development, you need to configure Convex:**
-
-### 3. Setup Convex Backend
-
-1. **Create Convex Account**: Go to [convex.dev](https://convex.dev) and sign up
-2. **Install Convex CLI**: `npm install -g convex`
-3. **Login to Convex**: `npx convex login`
-4. **Initialize your project**: 
-   ```bash
-   cd convex
-   npx convex dev --configure
-   ```
-   This will:
-   - Create a new Convex project
-   - Generate your deployment URL
-   - Start the development server
-
-### 4. Configure Environment Variables
+### 3. Configure Environment Variables
 
 1. **Copy environment template**:
    ```bash
    cp .env.example .env.local
    ```
 
-2. **Update `.env.local`** with your Convex URL (from step 3):
+2. **Update `.env.local`** with your Convex URL (from the init step):
    ```bash
    EXPO_PUBLIC_CONVEX_URL=https://your-deployment-url.convex.cloud
    ```
 
-### 5. Start Development
+### 4. Start Development
 
 ```bash
 # Start everything (backend + mobile app)
@@ -85,7 +68,8 @@ task app:dev     # Terminal 2
 
 | Command | Description |
 |---------|-------------|
-| `task setup` | Complete project setup from scratch |
+| `task init` | Initialize new project (first-time setup with Convex) |
+| `task setup` | Setup project dependencies (without Convex config) |
 | `task dev` | Start development environment (backend + app) |
 | `task install` | Install all dependencies |
 | `task convex:dev` | Start Convex backend only |
@@ -209,45 +193,22 @@ This template is specifically designed for AI coding assistants:
 ### Step 1: Project Setup
 
 ```bash
-# Clone and install dependencies
+# Clone and initialize project
 git clone <your-repo-url>
 cd fullstack-mobile-template
-task setup
+task init
 ```
 
-### Step 2: Convex Backend Configuration
+**Note**: The `task init` command handles Convex login and configuration automatically. If you need to do it manually:
 
-1. **Create Convex Account**:
-   - Go to [convex.dev](https://convex.dev)
-   - Sign up with GitHub, Google, or email
-   - No payment required for development
-
-2. **Setup Your Convex Project**:
-   ```bash
-   # Login to Convex (opens browser for auth)
-   npx convex login
-   
-   # Navigate to backend and initialize
-   cd convex
-   npx convex dev --configure
-   ```
-   
-   **What this does**:
-   - Creates a new Convex project in your dashboard
-   - Generates a unique deployment URL
-   - Creates `convex.json` with your project configuration
-   - Starts the development server
-   - **Important**: Keep this terminal open during development
-
-3. **Copy Your Deployment URL**:
-   - After `npx convex dev --configure`, you'll see output like:
+1. **Create Convex Account**: Go to [convex.dev](https://convex.dev) and sign up
+2. **Copy Your Deployment URL**: After the init process, you'll see output like:
    ```
    ✓ Convex functions ready! (convex dev is running)
    │ Your deployment URL: https://happy-animal-123.convex.cloud
    ```
-   - Copy this URL for the next step
 
-### Step 3: Environment Configuration
+### Step 2: Environment Configuration
 
 1. **Create Environment File**:
    ```bash
@@ -257,7 +218,7 @@ task setup
 
 2. **Configure `.env.local`**:
    ```bash
-   # Replace with YOUR deployment URL from Step 2
+   # Replace with YOUR deployment URL from the init process
    EXPO_PUBLIC_CONVEX_URL=https://happy-animal-123.convex.cloud
    ```
    
@@ -266,7 +227,7 @@ task setup
    - The URL format is always `https://[unique-name].convex.cloud`
    - Don't include quotes around the URL
 
-### Step 4: Start Development
+### Step 3: Start Development
 
 ```bash
 # Option 1: Start everything together (recommended)
@@ -282,7 +243,7 @@ task app:dev     # Terminal 2 - Mobile app
 - Expo terminal: QR code and development server
 - Mobile app: Running on simulator/device/web
 
-### Step 5: Verify Everything Works
+### Step 4: Verify Everything Works
 
 1. **Check Convex Dashboard**:
    - Go to [dashboard.convex.dev](https://dashboard.convex.dev)
@@ -299,7 +260,7 @@ task app:dev     # Terminal 2 - Mobile app
    - The app includes a task management example
    - First run will create sample data automatically
 
-### Step 6: Development Workflow
+### Step 5: Development Workflow
 
 ```bash
 # Sync API types after backend changes
