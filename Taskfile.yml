@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 env:
   NODE_ENV: development
@@ -7,7 +7,7 @@ tasks:
   # ========================================
   # MAIN DEVELOPMENT TASKS
   # ========================================
-  
+
   default:
     desc: Show available tasks
     cmd: task --list
@@ -44,7 +44,7 @@ tasks:
       - task: convex:sync-api
       - echo "📱 Starting mobile app..."
       - echo "🔗 Convex - http://localhost:3000"
-      - echo "📱 Expo - http://localhost:8081" 
+      - echo "📱 Expo - http://localhost:8081"
       - echo "⚠️  Keep this terminal open for both services"
       - task: app:dev
 
@@ -59,7 +59,7 @@ tasks:
   # ========================================
   # CONVEX BACKEND TASKS
   # ========================================
-  
+
   convex:dev:
     desc: Start Convex development server
     dir: convex
@@ -104,12 +104,11 @@ tasks:
     desc: Stop Convex development server
     cmd: |
       pkill -f "convex/bin/main.js dev" || echo "No Convex dev server running"
-      pkill -f "pnpm dev" || echo "No pnpm dev process found"
 
   # ========================================
   # MOBILE APP TASKS
   # ========================================
-  
+
   app:dev:
     desc: Start Expo development server
     dir: app
@@ -143,7 +142,7 @@ tasks:
   # ========================================
   # SETUP & MAINTENANCE TASKS
   # ========================================
-  
+
   init:
     desc: Initialize project with dependencies and Convex configuration
     cmds:
@@ -190,7 +189,7 @@ tasks:
   # ========================================
   # TESTING TASKS
   # ========================================
-  
+
   test:
     desc: Run all tests
     cmds:
@@ -208,7 +207,7 @@ tasks:
   # ========================================
   # LINTING & FORMATTING
   # ========================================
-  
+
   lint:
     desc: Lint all code
     cmds:
@@ -246,7 +245,7 @@ tasks:
   # ========================================
   # DOCUMENTATION TASKS
   # ========================================
-  
+
   docs:
     desc: Open documentation
     cmd: echo "📚 See README.md and docs/ folder for comprehensive documentation"
@@ -254,7 +253,7 @@ tasks:
   # ========================================
   # UTILITY TASKS
   # ========================================
-  
+
   status:
     desc: Show project status
     cmds:
