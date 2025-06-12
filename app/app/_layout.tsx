@@ -86,19 +86,6 @@ function RootLayoutNav() {
           }}
         />
 
-        <Stack.Screen
-          name="tasks"
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="services"
-          options={{
-            headerShown: false,
-          }}
-        />
 
         <Stack.Screen
           name="modal"
