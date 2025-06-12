@@ -1,4 +1,4 @@
-# 🚀 Fullstack Mobile Template
+# 🚀 j1 Template
 
 A production-ready fullstack mobile application template built for AI development tools like Claude Code, Cursor, and other LLM agents.
 
