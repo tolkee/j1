@@ -16,10 +16,20 @@ tasks:
     desc: Install all dependencies for both app and convex
     cmds:
       - echo "📦 Installing Convex dependencies..."
-      - cd convex && npm install
+      - task: install:convex
       - echo "📦 Installing App dependencies..."
-      - cd app && yarn install
+      - task: install:app
       - echo "✅ All dependencies installed!"
+
+  install:convex:
+    internal: true
+    dir: convex
+    cmd: npm install
+
+  install:app:
+    internal: true
+    dir: app
+    cmd: yarn install
 
   dev:
     desc: Start development environment (convex + app)
@@ -54,7 +64,7 @@ tasks:
   convex:build:
     desc: Build Convex backend
     dir: convex
-    cmd: npm run build
+    cmd: echo "✅ Convex builds automatically on deploy"
 
   convex:test:
     desc: Run Convex tests
@@ -64,7 +74,7 @@ tasks:
   convex:test:watch:
     desc: Run Convex tests in watch mode
     dir: convex
-    cmd: npm run test:watch
+    cmd: npm run test -- --watch
 
   convex:sync-api:
     desc: Generate and sync API types to frontend
@@ -98,7 +108,7 @@ tasks:
   app:build:
     desc: Build mobile app
     dir: app
-    cmd: yarn build
+    cmd: npx expo export
 
   app:test:
     desc: Run mobile app tests
@@ -158,15 +168,35 @@ tasks:
     desc: Lint all code
     cmds:
       - echo "🔍 Linting code..."
-      - cd app && yarn lint || echo "⚠️ App linting not configured"
-      - cd convex && npm run lint || echo "⚠️ Convex linting not configured"
+      - task: lint:app
+      - task: lint:convex
+
+  lint:app:
+    internal: true
+    dir: app
+    cmd: yarn lint || echo "⚠️ App linting not configured"
+
+  lint:convex:
+    internal: true
+    dir: convex
+    cmd: npm run lint || echo "⚠️ Convex linting not configured"
 
   format:
     desc: Format all code
     cmds:
       - echo "✨ Formatting code..."
-      - cd app && yarn format || echo "⚠️ App formatting not configured"
-      - cd convex && npm run format || echo "⚠️ Convex formatting not configured"
+      - task: format:app
+      - task: format:convex
+
+  format:app:
+    internal: true
+    dir: app
+    cmd: yarn format || echo "⚠️ App formatting not configured"
+
+  format:convex:
+    internal: true
+    dir: convex
+    cmd: npm run format || echo "⚠️ Convex formatting not configured"
 
   # ========================================
   # DOCUMENTATION TASKS
@@ -187,7 +217,17 @@ tasks:
       - echo "Backend{{":"}} Convex"
       - echo "Frontend{{":"}} React Native + Expo"
       - echo "UI{{":"}} Tamagui"
-      - |
-        cd convex && echo "Convex dependencies:" && npm list --depth=0 2>/dev/null | head -10 || echo "Run 'task install' first"
-      - |
-        cd app && echo "App dependencies:" && yarn list --depth=0 2>/dev/null | head -10 || echo "Run 'task install' first"
+      - task: status:convex
+      - task: status:app
+
+  status:convex:
+    internal: true
+    dir: convex
+    cmd: |
+      echo "Convex dependencies:" && npm list --depth=0 2>/dev/null | head -10 || echo "Run 'task install' first"
+
+  status:app:
+    internal: true
+    dir: app
+    cmd: |
+      echo "App dependencies:" && yarn list --depth=0 2>/dev/null | head -10 || echo "Run 'task install' first"
