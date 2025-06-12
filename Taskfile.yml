@@ -130,9 +130,9 @@ tasks:
   # ========================================
   
   init:
-    desc: Initialize new project (first-time setup with Convex configuration)
+    desc: Initialize project with dependencies and Convex configuration
     cmds:
-      - echo "🚀 Initializing new Fullstack Template project..."
+      - echo "🚀 Initializing Fullstack Template project..."
       - task: install
       - echo "🔐 Setting up Convex backend..."
       - task: convex:login
@@ -145,15 +145,6 @@ tasks:
       - echo "   2. Run - cp .env.example .env.local"
       - echo "   3. Update EXPO_PUBLIC_CONVEX_URL in .env.local"
       - echo "   4. Run - task dev"
-
-  setup:
-    desc: Setup project dependencies (use 'init' for first-time setup)
-    cmds:
-      - echo "🎯 Setting up Fullstack Template..."
-      - task: install
-      - echo "🔄 Syncing API types..."
-      - task: convex:sync-api
-      - echo "✅ Setup complete! Run 'task dev' to start developing."
 
   clean:
     desc: Clean all build artifacts and dependencies

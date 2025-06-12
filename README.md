@@ -9,7 +9,7 @@ A production-ready fullstack mobile application template built for AI developmen
 git clone <your-repo-url>
 cd fullstack-mobile-template
 
-# 2. First-time setup (includes Convex configuration)
+# 2. Initialize project (works for new or existing Convex projects)
 task init
 ```
 
@@ -68,8 +68,7 @@ task app:dev     # Terminal 2
 
 | Command | Description |
 |---------|-------------|
-| `task init` | Initialize new project (first-time setup with Convex) |
-| `task setup` | Setup project dependencies (without Convex config) |
+| `task init` | Initialize project with dependencies and Convex configuration |
 | `task dev` | Start development environment (backend + app) |
 | `task install` | Install all dependencies |
 | `task convex:dev` | Start Convex backend only |
@@ -199,7 +198,7 @@ cd fullstack-mobile-template
 task init
 ```
 
-**Note**: The `task init` command handles Convex login and configuration automatically. If you need to do it manually:
+**Note**: The `task init` command handles Convex login and configuration automatically. It can create a new Convex project or connect to an existing one. If you need to do it manually:
 
 1. **Create Convex Account**: Go to [convex.dev](https://convex.dev) and sign up
 2. **Copy Your Deployment URL**: After the init process, you'll see output like:
