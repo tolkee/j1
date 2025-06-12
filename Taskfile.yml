@@ -1,0 +1,191 @@
+version: '3'
+
+env:
+  NODE_ENV: development
+
+tasks:
+  # ========================================
+  # MAIN DEVELOPMENT TASKS
+  # ========================================
+  
+  default:
+    desc: Show available tasks
+    cmd: task --list
+
+  install:
+    desc: Install all dependencies for both app and convex
+    cmds:
+      - echo "📦 Installing Convex dependencies..."
+      - cd convex && npm install
+      - echo "📦 Installing App dependencies..."
+      - cd app && yarn install
+      - echo "✅ All dependencies installed!"
+
+  dev:
+    desc: Start development environment (convex + app)
+    deps: [install]
+    cmds:
+      - echo "🚀 Starting development environment..."
+      - task: convex:dev &
+      - task: app:dev
+
+  build:
+    desc: Build the entire project
+    cmds:
+      - echo "🏗️ Building project..."
+      - task: convex:build
+      - task: app:build
+      - echo "✅ Build complete!"
+
+  # ========================================
+  # CONVEX BACKEND TASKS
+  # ========================================
+  
+  convex:dev:
+    desc: Start Convex development server
+    dir: convex
+    cmd: npm run dev
+
+  convex:deploy:
+    desc: Deploy Convex to production
+    dir: convex
+    cmd: npm run deploy
+
+  convex:build:
+    desc: Build Convex backend
+    dir: convex
+    cmd: npm run build
+
+  convex:test:
+    desc: Run Convex tests
+    dir: convex
+    cmd: npm run test
+
+  convex:test:watch:
+    desc: Run Convex tests in watch mode
+    dir: convex
+    cmd: npm run test:watch
+
+  convex:sync-api:
+    desc: Generate and sync API types to frontend
+    dir: convex
+    cmd: npm run sync-api
+
+  # ========================================
+  # MOBILE APP TASKS
+  # ========================================
+  
+  app:dev:
+    desc: Start Expo development server
+    dir: app
+    cmd: yarn start
+
+  app:ios:
+    desc: Run app on iOS simulator
+    dir: app
+    cmd: yarn ios
+
+  app:android:
+    desc: Run app on Android emulator
+    dir: app
+    cmd: yarn android
+
+  app:web:
+    desc: Run app in web browser
+    dir: app
+    cmd: yarn web
+
+  app:build:
+    desc: Build mobile app
+    dir: app
+    cmd: yarn build
+
+  app:test:
+    desc: Run mobile app tests
+    dir: app
+    cmd: yarn test
+
+  # ========================================
+  # SETUP & MAINTENANCE TASKS
+  # ========================================
+  
+  setup:
+    desc: Complete project setup from scratch
+    cmds:
+      - echo "🎯 Setting up Fullstack Template..."
+      - task: install
+      - echo "🔄 Syncing API types..."
+      - task: convex:sync-api
+      - echo "✅ Setup complete! Run 'task dev' to start developing."
+
+  clean:
+    desc: Clean all build artifacts and dependencies
+    cmds:
+      - echo "🧹 Cleaning project..."
+      - rm -rf app/node_modules app/.expo app/dist
+      - rm -rf convex/node_modules convex/_generated
+      - echo "✅ Clean complete!"
+
+  reset:
+    desc: Reset project (clean + install)
+    cmds:
+      - task: clean
+      - task: install
+
+  # ========================================
+  # TESTING TASKS
+  # ========================================
+  
+  test:
+    desc: Run all tests
+    cmds:
+      - echo "🧪 Running all tests..."
+      - task: convex:test
+      - task: app:test
+      - echo "✅ All tests complete!"
+
+  test:watch:
+    desc: Run tests in watch mode
+    cmds:
+      - task: convex:test:watch &
+      - task: app:test
+
+  # ========================================
+  # LINTING & FORMATTING
+  # ========================================
+  
+  lint:
+    desc: Lint all code
+    cmds:
+      - echo "🔍 Linting code..."
+      - cd app && yarn lint || echo "⚠️ App linting not configured"
+      - cd convex && npm run lint || echo "⚠️ Convex linting not configured"
+
+  format:
+    desc: Format all code
+    cmds:
+      - echo "✨ Formatting code..."
+      - cd app && yarn format || echo "⚠️ App formatting not configured"
+      - cd convex && npm run format || echo "⚠️ Convex formatting not configured"
+
+  # ========================================
+  # DOCUMENTATION TASKS
+  # ========================================
+  
+  docs:
+    desc: Open documentation
+    cmd: echo "📚 See README.md and docs/ folder for comprehensive documentation"
+
+  # ========================================
+  # UTILITY TASKS
+  # ========================================
+  
+  status:
+    desc: Show project status
+    cmds:
+      - echo "📋 Project Status:"
+      - echo "Backend: Convex"
+      - echo "Frontend: React Native + Expo"
+      - echo "UI: Tamagui"
+      - cd convex && echo "Convex dependencies:" && npm list --depth=0 2>/dev/null | head -10 || echo "Run 'task install' first"
+      - cd app && echo "App dependencies:" && yarn list --depth=0 2>/dev/null | head -10 || echo "Run 'task install' first"

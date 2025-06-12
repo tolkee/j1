@@ -1,0 +1,289 @@
+import { getAuthUserId } from "@convex-dev/auth/server";
+import { mutation, query } from "./_generated/server";
+import { v } from "convex/values";
+
+/**
+ * Get all users (for admin purposes or testing)
+ */
+export const getAllUsers = query({
+  args: {},
+  returns: v.array(
+    v.object({
+      _id: v.id("users"),
+      _creationTime: v.number(),
+      email: v.optional(v.string()),
+      name: v.optional(v.string()),
+      image: v.optional(v.string()),
+      emailVerified: v.optional(v.number()),
+      preferredName: v.optional(v.string()),
+      timezone: v.optional(v.string()),
+      welcomeMessagePreference: v.optional(v.string()),
+      createdAt: v.optional(v.number()),
+      updatedAt: v.optional(v.number()),
+    })
+  ),
+  handler: async (ctx) => {
+    return await ctx.db.query("users").collect();
+  },
+});
+
+/**
+ * Get user settings
+ */
+export const getUserSettings = query({
+  args: {
+    userId: v.id("users"),
+  },
+  returns: v.union(
+    v.object({
+      _id: v.id("userSettings"),
+      _creationTime: v.number(),
+      userId: v.id("users"),
+      theme: v.optional(v.union(v.literal("light"), v.literal("dark"))),
+      language: v.optional(v.string()),
+      notificationsEnabled: v.optional(v.boolean()),
+    }),
+    v.null()
+  ),
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("userSettings")
+      .filter((q) => q.eq(q.field("userId"), args.userId))
+      .unique();
+  },
+});
+
+/**
+ * Update user settings
+ */
+export const updateUserSettings = mutation({
+  args: {
+    userId: v.id("users"),
+    theme: v.optional(v.union(v.literal("light"), v.literal("dark"))),
+    language: v.optional(v.string()),
+    notificationsEnabled: v.optional(v.boolean()),
+  },
+  returns: v.object({
+    success: v.boolean(),
+    message: v.string(),
+  }),
+  handler: async (ctx, args) => {
+    const settings = await ctx.db
+      .query("userSettings")
+      .filter((q) => q.eq(q.field("userId"), args.userId))
+      .unique();
+
+    if (!settings) {
+      return {
+        success: false,
+        message: "User settings not found",
+      };
+    }
+
+    const updates: any = {};
+    if (args.theme !== undefined) updates.theme = args.theme;
+    if (args.language !== undefined) updates.language = args.language;
+    if (args.notificationsEnabled !== undefined) {
+      updates.notificationsEnabled = args.notificationsEnabled;
+    }
+
+    await ctx.db.patch(settings._id, updates);
+
+    return {
+      success: true,
+      message: "Settings updated successfully",
+    };
+  },
+});
+
+/**
+ * Delete a user and all associated data
+ */
+export const deleteUser = mutation({
+  args: {
+    userId: v.id("users"),
+  },
+  returns: v.object({
+    success: v.boolean(),
+    message: v.string(),
+  }),
+  handler: async (ctx, args) => {
+    // Check if user exists
+    const user = await ctx.db.get(args.userId);
+    if (!user) {
+      return {
+        success: false,
+        message: "User not found",
+      };
+    }
+
+    // Delete user settings
+    const settings = await ctx.db
+      .query("userSettings")
+      .filter((q) => q.eq(q.field("userId"), args.userId))
+      .unique();
+    if (settings) {
+      await ctx.db.delete(settings._id);
+    }
+
+    // Delete welcome messages
+    const welcomeMessages = await ctx.db
+      .query("welcomeMessages")
+      .filter((q) => q.eq(q.field("userId"), args.userId))
+      .collect();
+    for (const message of welcomeMessages) {
+      await ctx.db.delete(message._id);
+    }
+
+    // Delete conversations and messages
+    const conversations = await ctx.db
+      .query("conversations")
+      .filter((q) => q.eq(q.field("userId"), args.userId))
+      .collect();
+
+    for (const conversation of conversations) {
+      // Delete all messages in this conversation
+      const messages = await ctx.db
+        .query("messages")
+        .filter((q) => q.eq(q.field("conversationId"), conversation._id))
+        .collect();
+      for (const message of messages) {
+        await ctx.db.delete(message._id);
+      }
+      // Delete the conversation
+      await ctx.db.delete(conversation._id);
+    }
+
+    // Finally delete the user
+    await ctx.db.delete(args.userId);
+
+    return {
+      success: true,
+      message: "User and all associated data deleted successfully",
+    };
+  },
+});
+
+/**
+ * Get current authenticated user
+ */
+export const getCurrentUser = query({
+  args: {},
+  returns: v.union(
+    v.object({
+      _id: v.id("users"),
+      _creationTime: v.number(),
+      email: v.optional(v.string()),
+      name: v.optional(v.string()),
+      image: v.optional(v.string()),
+      emailVerified: v.optional(v.number()),
+      welcomeMessagePreference: v.optional(v.string()),
+      preferredName: v.optional(v.string()),
+      timezone: v.optional(v.string()),
+      createdAt: v.optional(v.number()),
+      updatedAt: v.optional(v.number()),
+    }),
+    v.null()
+  ),
+  handler: async (ctx) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      return null;
+    }
+
+    return await ctx.db.get(userId);
+  },
+});
+
+/**
+ * Update user profile
+ */
+export const updateProfile = mutation({
+  args: {
+    name: v.optional(v.string()),
+    preferredName: v.optional(v.string()),
+    timezone: v.optional(v.string()),
+    welcomeMessagePreference: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
+    const user = await ctx.db.get(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const updates: any = {};
+    if (args.name !== undefined) updates.name = args.name;
+    if (args.preferredName !== undefined)
+      updates.preferredName = args.preferredName;
+    if (args.timezone !== undefined) updates.timezone = args.timezone;
+    if (args.welcomeMessagePreference !== undefined) {
+      updates.welcomeMessagePreference = args.welcomeMessagePreference;
+    }
+    updates.updatedAt = Date.now();
+
+    await ctx.db.patch(userId, updates);
+
+    return {
+      success: true,
+      message: "Profile updated successfully",
+    };
+  },
+});
+
+/**
+ * Initialize user data after first signup
+ */
+export const initializeUserData = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
+    const user = await ctx.db.get(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Check if user data is already initialized
+    const existingWelcomeMessage = await ctx.db
+      .query("welcomeMessages")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .first();
+
+    if (existingWelcomeMessage) {
+      return { success: true, message: "User data already initialized" };
+    }
+
+    // Create default welcome message configuration
+    await ctx.db.insert("welcomeMessages", {
+      userId,
+      isActive: true,
+    });
+
+    // Create default user settings
+    await ctx.db.insert("userSettings", {
+      userId,
+      theme: "light",
+      language: "en",
+      notificationsEnabled: true,
+    });
+
+    // Update user profile with defaults
+    await ctx.db.patch(userId, {
+      welcomeMessagePreference: "personalized",
+      updatedAt: Date.now(),
+    });
+
+    return {
+      success: true,
+      message: "User data initialized successfully",
+    };
+  },
+});
