@@ -119,7 +119,7 @@ export default function LoginScreen() {
             {/* Footer */}
             <View style={styles.footer}>
               <Text style={styles.footerText}>
-                New users will automatically get an account created.
+                Don't have an account? Contact your administrator.
               </Text>
             </View>
           </View>

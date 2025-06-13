@@ -26,23 +26,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const isAuthenticated = user !== null;
 
   const signIn = async (username: string, password: string) => {
-    try {
-      // First try to sign in
-      await authSignIn('password', { 
-        username, 
-        password,
-        flow: 'signIn'
-      });
-    } catch (error) {
-      // If user doesn't exist, create account automatically (for demo purposes)
-      console.log('User not found, creating account for:', username);
-      await authSignIn('password', { 
-        username, 
-        password,
-        email: `${username}@example.com`,
-        flow: 'signUp'
-      });
-    }
+    await authSignIn('password', { 
+      username, 
+      password,
+      flow: 'signIn'
+    });
   };
 
   const signOut = async () => {
