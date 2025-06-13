@@ -65,13 +65,7 @@ function AuthRedirect() {
 }
 
 function RootLayoutNav() {
-  let colorScheme: "light" | "dark" = "light";
-  try {
-    colorScheme = useColorScheme() ?? "light";
-  } catch (error) {
-    console.warn("useColorScheme failed:", error);
-    colorScheme = "light";
-  }
+  const colorScheme = useColorScheme();
   const theme = useTheme();
 
   return (
@@ -91,7 +85,6 @@ function RootLayoutNav() {
             headerShown: false,
           }}
         />
-
 
         <Stack.Screen
           name="modal"
