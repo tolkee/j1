@@ -5,9 +5,12 @@ import { DataModel } from "./_generated/dataModel";
 const CustomPassword = Password<DataModel>({
   profile(params) {
     return {
-      username: params.email as string, // Using email field to store username
+      email: params.email as string, // Store username in email field for compatibility
+      username: params.email as string, // Also store as username
     };
   },
+  // Disable password validation - allow any password
+  validatePasswordRequirements: () => {},
 });
 
 export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
