@@ -32,7 +32,7 @@ task app:dev     # Terminal 2
 
 - **Backend**: [Convex](https://convex.dev) - Real-time database with serverless functions
 - **Frontend**: React Native with [Expo](https://expo.dev) and file-based routing
-- **UI**: [Tamagui](https://tamagui.dev) - Universal design system
+- **UI**: Clean React Native components (Tamagui-free)
 - **Auth**: Built-in authentication system
 - **TypeScript**: Full type safety across the stack
 - **Testing**: Vitest for backend, Jest for frontend
@@ -141,12 +141,12 @@ Convex provides:
 - Offline support
 - Automatic sync
 
-### 🎨 Design System
-Tamagui offers:
-- Cross-platform components
-- Theme support (light/dark)
-- Responsive design
-- Animation system
+### 🎨 Clean UI
+React Native components:
+- Standard RN components
+- StyleSheet-based styling
+- Platform-specific optimizations
+- No external UI dependencies
 
 ### 🔄 Type Safety
 End-to-end type safety:
