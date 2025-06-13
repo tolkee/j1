@@ -8,6 +8,7 @@ export default defineSchema({
   // User management table - extended from Convex Auth
   users: defineTable({
     email: v.optional(v.string()),
+    username: v.optional(v.string()),
     name: v.optional(v.string()),
     image: v.optional(v.string()),
     emailVerified: v.optional(v.number()),
@@ -17,7 +18,8 @@ export default defineSchema({
     // Audit fields
     createdAt: v.optional(v.number()),
     updatedAt: v.optional(v.number()),
-  }).index("by_email", ["email"]),
+  }).index("by_email", ["email"])
+    .index("by_username", ["username"]),
 
   // User preferences and settings
   userSettings: defineTable({
