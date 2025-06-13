@@ -188,7 +188,7 @@ cd fullstack-mobile-template
 task init
 ```
 
-**Note**: The `task init` command handles Convex login and configuration automatically. It can create a new Convex project or connect to an existing one. If you need to do it manually:
+**Note**: The `task init` command handles Convex login, configuration, and auth initialization automatically. It can create a new Convex project or connect to an existing one. If you need to do it manually:
 
 1. **Create Convex Account**: Go to [convex.dev](https://convex.dev) and sign up
 2. **Copy Your Deployment URL**: After the init process, you'll see output like:

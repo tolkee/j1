@@ -105,6 +105,11 @@ tasks:
     cmd: |
       pkill -f "convex/bin/main.js dev" || echo "No Convex dev server running"
 
+  convex:auth-init:
+    desc: Initialize Convex auth
+    dir: convex
+    cmd: npx @convex-dev/auth
+
   # ========================================
   # MOBILE APP TASKS
   # ========================================
@@ -151,6 +156,8 @@ tasks:
       - echo "🔐 Setting up Convex backend..."
       - task: convex:login
       - task: convex:configure
+      - echo "🔐 Initializing Convex auth..."
+      - task: convex:auth-init
       - echo "🔄 Syncing API types..."
       - task: convex:sync-api
       - echo "⚙️ Setting up environment file..."
