@@ -16,12 +16,13 @@ import {
   H2,
   ScrollView,
 } from "tamagui";
-import { User, Lock, UserPlus, Eye, EyeOff } from "@tamagui/lucide-icons";
+import { User, Lock, UserPlus, Eye, EyeOff, Mail } from "@tamagui/lucide-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAuth } from "../../services/auth/contexts/AuthContext";
 
 export default function RegisterScreen() {
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
@@ -35,6 +36,12 @@ export default function RegisterScreen() {
       errors.push("Username is required");
     } else if (username.trim().length < 3) {
       errors.push("Username must be at least 3 characters long");
+    }
+
+    if (!email.trim()) {
+      errors.push("Email is required");
+    } else if (!/\S+@\S+\.\S+/.test(email.trim())) {
+      errors.push("Please enter a valid email address");
     }
 
     if (!password.trim()) {
@@ -55,7 +62,7 @@ export default function RegisterScreen() {
     }
 
     try {
-      await signUp(username.trim(), password.trim());
+      await signUp(username.trim(), email.trim(), password.trim());
       router.replace("/");
     } catch (error) {
       Alert.alert(
@@ -174,6 +181,46 @@ export default function RegisterScreen() {
                 {getFieldError("username") && (
                   <Text fontSize="$2" color="$red10">
                     {getFieldError("username")}
+                  </Text>
+                )}
+              </YStack>
+
+              <YStack gap="$2">
+                <Text fontSize="$3" color="$color11" fontWeight="500">
+                  Email
+                </Text>
+                <XStack
+                  alignItems="center"
+                  backgroundColor="$color3"
+                  borderRadius="$4"
+                  paddingHorizontal="$3"
+                  paddingVertical="$2"
+                  borderWidth={getFieldError("email") ? 1 : 0}
+                  borderColor="$red9"
+                >
+                  <Mail size="$1" color="$color11" />
+                  <Input
+                    flex={1}
+                    placeholder="Enter your email"
+                    value={email}
+                    onChangeText={(text) => {
+                      setEmail(text);
+                      if (validationErrors.length > 0) {
+                        setValidationErrors([]);
+                      }
+                    }}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    backgroundColor="transparent"
+                    borderWidth={0}
+                    paddingHorizontal="$3"
+                    fontSize="$4"
+                  />
+                </XStack>
+                {getFieldError("email") && (
+                  <Text fontSize="$2" color="$red10">
+                    {getFieldError("email")}
                   </Text>
                 )}
               </YStack>

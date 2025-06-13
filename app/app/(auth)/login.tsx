@@ -19,7 +19,7 @@ export default function LoginScreen() {
 
   const handleLogin = async () => {
     if (!username.trim()) {
-      Alert.alert("Error", "Please enter your username");
+      Alert.alert("Error", "Please enter your username or email");
       return;
     }
 
@@ -95,7 +95,7 @@ export default function LoginScreen() {
             <YStack gap="$4" width="100%" maxWidth={400}>
               <YStack gap="$2">
                 <Text fontSize="$3" color="$color11" fontWeight="500">
-                  Username
+                  Username or Email
                 </Text>
                 <XStack
                   alignItems="center"
@@ -107,7 +107,7 @@ export default function LoginScreen() {
                   <User size="$1" color="$color11" />
                   <Input
                     flex={1}
-                    placeholder="Enter your username"
+                    placeholder="Enter your username or email"
                     value={username}
                     onChangeText={setUsername}
                     autoCapitalize="none"

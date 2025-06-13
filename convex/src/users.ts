@@ -11,6 +11,7 @@ export const getAllUsers = query({
     v.object({
       _id: v.id("users"),
       _creationTime: v.number(),
+      email: v.optional(v.string()),
       username: v.optional(v.string()),
       image: v.optional(v.string()),
       emailVerified: v.optional(v.number()),
@@ -178,6 +179,7 @@ export const getCurrentUser = query({
     v.object({
       _id: v.id("users"),
       _creationTime: v.number(),
+      email: v.optional(v.string()),
       username: v.optional(v.string()),
       image: v.optional(v.string()),
       emailVerified: v.optional(v.number()),
@@ -201,6 +203,7 @@ export const getCurrentUser = query({
  */
 export const updateProfile = mutation({
   args: {
+    email: v.optional(v.string()),
     username: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
@@ -215,6 +218,7 @@ export const updateProfile = mutation({
     }
 
     const updates: any = {};
+    if (args.email !== undefined) updates.email = args.email;
     if (args.username !== undefined) updates.username = args.username;
     updates.updatedAt = Date.now();
 
