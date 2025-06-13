@@ -154,22 +154,22 @@ tasks:
       - echo "🔄 Syncing API types..."
       - task: convex:sync-api
       - echo "⚙️ Setting up environment file..."
-      - cp .env.example .env.local
+      - cp .env.example app/.env.local
       - |
         if [ -f convex/.env.local ]; then
           CONVEX_URL=$(grep CONVEX_URL convex/.env.local | cut -d '=' -f2)
           if [ ! -z "$CONVEX_URL" ]; then
-            sed -i.bak "s|EXPO_PUBLIC_CONVEX_URL=.*|EXPO_PUBLIC_CONVEX_URL=$CONVEX_URL|" .env.local && rm .env.local.bak
-            echo "✅ Automatically configured EXPO_PUBLIC_CONVEX_URL=$CONVEX_URL"
+            sed -i.bak "s|EXPO_PUBLIC_CONVEX_URL=.*|EXPO_PUBLIC_CONVEX_URL=$CONVEX_URL|" app/.env.local && rm app/.env.local.bak
+            echo "✅ Automatically configured EXPO_PUBLIC_CONVEX_URL=$CONVEX_URL in app/.env.local"
           else
-            echo "⚠️ Could not extract Convex URL. Please update .env.local manually."
+            echo "⚠️ Could not extract Convex URL. Please update app/.env.local manually."
           fi
         else
-          echo "⚠️ Convex .env.local not found. Please update .env.local manually."
+          echo "⚠️ Convex .env.local not found. Please update app/.env.local manually."
         fi
       - echo "✅ Initialization complete!"
       - echo "📝 Next steps:"
-      - echo "   1. Verify EXPO_PUBLIC_CONVEX_URL in .env.local is correct"
+      - echo "   1. Verify EXPO_PUBLIC_CONVEX_URL in app/.env.local"
       - echo "   2. Run - task dev to start development"
 
   clean:
