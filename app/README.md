@@ -1,6 +1,6 @@
-# J1 Clean App
+# J1 App
 
-A clean Expo Router application without Tamagui dependencies, maintaining the same architecture and structure as the main J1 app.
+A clean Expo Router application without Tamagui dependencies, maintaining the same architecture and structure as the main J1 project.
 
 ## Features
 
@@ -9,11 +9,12 @@ A clean Expo Router application without Tamagui dependencies, maintaining the sa
 - **Path Aliases**: Clean imports using `@/` prefix
 - **Clean Architecture**: Service-oriented structure
 - **Backend Ready**: Pre-configured for Convex integration
+- **pnpm**: Package manager for fast, efficient installs
 
 ## Project Structure
 
 ```
-app-clean/
+app/
 ├── app/                    # Expo Router screens
 │   ├── _layout.tsx        # Root layout
 │   └── index.tsx          # Welcome screen
@@ -45,6 +46,8 @@ The app uses TypeScript path aliases for clean imports:
 
 2. **Start development server**:
    ```bash
+   pnpm dev
+   # or
    pnpm start
    ```
 
