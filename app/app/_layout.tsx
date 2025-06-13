@@ -32,14 +32,18 @@ function AppNavigator() {
         name="tasks/new" 
         options={{ 
           presentation: 'modal',
-          headerShown: false 
+          headerShown: false,
+          gestureEnabled: true,
+          animationTypeForReplace: 'push'
         }} 
       />
       <Stack.Screen 
         name="tasks/edit/[taskId]" 
         options={{ 
           presentation: 'modal',
-          headerShown: false 
+          headerShown: false,
+          gestureEnabled: true,
+          animationTypeForReplace: 'push'
         }} 
       />
     </Stack>

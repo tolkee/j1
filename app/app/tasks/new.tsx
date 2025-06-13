@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -26,11 +26,21 @@ export default function NewTaskScreen() {
   
   const { isAuthenticated } = useAuth();
   const createTask = useMutation(api.tasks.tasks.create);
+  const titleInputRef = useRef<TextInput>(null);
 
   // Don't render if not authenticated
   if (!isAuthenticated) {
     return null;
   }
+
+  // Focus the title input when screen loads
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      titleInputRef.current?.focus();
+    }, 500); // Delay to ensure modal is fully presented
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSave = async () => {
     if (!title.trim()) {
@@ -132,11 +142,11 @@ export default function NewTaskScreen() {
         {/* Title */}
         <View style={styles.section}>
           <Input
+            ref={titleInputRef}
             label="Title *"
             placeholder="Enter task title"
             value={title}
             onChangeText={setTitle}
-            autoFocus
             returnKeyType="next"
           />
         </View>

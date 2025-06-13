@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -29,6 +29,7 @@ export default function EditTaskScreen() {
   const task = useQuery(api.tasks.tasks.get, isAuthenticated ? { id: taskId as string } : "skip");
   const updateTask = useMutation(api.tasks.tasks.update);
   const removeTask = useMutation(api.tasks.tasks.remove);
+  const titleInputRef = useRef<TextInput>(null);
 
   // Don't render if not authenticated
   if (!isAuthenticated) {
@@ -46,6 +47,17 @@ export default function EditTaskScreen() {
       setStatus(task.status || 'todo');
       setDueDate(task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : '');
     }
+  }, [task]);
+
+  // Focus the title input when screen loads (with delay for modal)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (task) { // Only focus when task data is loaded
+        titleInputRef.current?.focus();
+      }
+    }, 500);
+    
+    return () => clearTimeout(timer);
   }, [task]);
 
   const handleSave = async () => {
@@ -219,6 +231,7 @@ export default function EditTaskScreen() {
         {/* Title */}
         <View style={styles.section}>
           <Input
+            ref={titleInputRef}
             label="Title *"
             placeholder="Enter task title"
             value={title}
