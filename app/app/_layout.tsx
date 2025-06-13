@@ -14,7 +14,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider } from "@/common/components/Provider";
 import { useTheme } from "tamagui";
 import { useAuth } from "@/services/auth/contexts/AuthContext";
-import { ThemeWrapper } from "@/common/components/ThemeWrapper";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
