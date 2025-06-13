@@ -65,7 +65,7 @@ function AuthRedirect() {
 }
 
 function RootLayoutNav() {
-  const colorScheme: "light" | "dark" | undefined | null = useColorScheme();
+  const colorScheme = useColorScheme() ?? "light";
   const theme = useTheme();
 
   return (
