@@ -7,7 +7,7 @@ interface AuthContextType {
   user: any | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  signIn: (username: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -25,9 +25,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const isLoading = user === undefined;
   const isAuthenticated = user !== null;
 
-  const signIn = async (username: string, password: string) => {
+  const signIn = async (email: string, password: string) => {
     await authSignIn('password', { 
-      username, 
+      email, 
       password,
       flow: 'signIn'
     });

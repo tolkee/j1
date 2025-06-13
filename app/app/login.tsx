@@ -16,13 +16,13 @@ import { Input, Button } from '@/common/components/ui';
 import { useAuth } from '@/services/auth/contexts/AuthContext';
 
 export default function LoginScreen() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   
   const { signIn } = useAuth();
   const scrollViewRef = useRef<ScrollView>(null);
-  const usernameRef = useRef<TextInput>(null);
+  const emailRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
 
   const scrollToInput = (inputRef: React.RefObject<TextInput>) => {
@@ -36,20 +36,20 @@ export default function LoginScreen() {
   };
 
   const handleLogin = async () => {
-    if (!username.trim() || !password.trim()) {
+    if (!email.trim() || !password.trim()) {
       Alert.alert('Error', 'Please fill in all fields');
       return;
     }
 
     setIsLoading(true);
     try {
-      await signIn(username.trim(), password);
+      await signIn(email.trim(), password);
       router.replace('/projects');
     } catch (error: any) {
       console.error('Login failed:', error);
       Alert.alert(
         'Login Failed',
-        error.message || 'Invalid username or password. Please try again.'
+        error.message || 'Invalid email or password. Please try again.'
       );
     } finally {
       setIsLoading(false);
@@ -83,14 +83,15 @@ export default function LoginScreen() {
             {/* Form */}
             <View style={styles.form}>
               <Input
-                ref={usernameRef}
-                label="Username"
-                placeholder="Enter your username"
-                value={username}
-                onChangeText={setUsername}
+                ref={emailRef}
+                label="Email"
+                placeholder="Enter your email"
+                value={email}
+                onChangeText={setEmail}
                 autoCapitalize="none"
                 autoCorrect={false}
-                onFocus={() => scrollToInput(usernameRef)}
+                keyboardType="email-address"
+                onFocus={() => scrollToInput(emailRef)}
                 returnKeyType="next"
                 onSubmitEditing={() => passwordRef.current?.focus()}
               />

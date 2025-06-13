@@ -31,13 +31,18 @@ interface Project {
 
 export default function ProjectsScreen() {
   const [refreshing, setRefreshing] = useState(false);
-  const { user, signOut } = useAuth();
+  const { user, signOut, isAuthenticated } = useAuth();
   
-  // Convex queries and mutations
-  const projects = useQuery(api.tasks.projects.list, {});
+  // Convex queries and mutations - only run when authenticated
+  const projects = useQuery(api.tasks.projects.list, isAuthenticated ? {} : "skip");
   const createProject = useMutation(api.tasks.projects.create);
   
   const isLoading = projects === undefined;
+
+  // Don't render if not authenticated
+  if (!isAuthenticated) {
+    return null;
+  }
 
   const onRefresh = async () => {
     setRefreshing(true);

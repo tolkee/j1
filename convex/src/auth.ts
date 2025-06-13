@@ -5,8 +5,8 @@ import { DataModel } from "./_generated/dataModel";
 const CustomPassword = Password<DataModel>({
   profile(params) {
     return {
-      email: params.email as string, // Store actual email
-      username: params.username as string, // Store username separately
+      email: params.email as string,
+      username: params.username as string,
     };
   },
   // Disable password validation - allow any password
