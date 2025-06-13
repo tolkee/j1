@@ -95,8 +95,7 @@ export default function ProjectsScreen() {
   };
 
   const handleProjectPress = (project: Project) => {
-    // Navigate to project details or tasks
-    console.log('Navigate to project:', project.name);
+    router.push(`/tasks/${project._id}`);
   };
 
   const renderProject = ({ item }: { item: Project }) => (
@@ -154,9 +153,14 @@ export default function ProjectsScreen() {
           </Text>
           <Text style={styles.headerTitle}>Projects</Text>
         </View>
-        <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-          <Text style={styles.logoutText}>Sign Out</Text>
-        </TouchableOpacity>
+        <View style={styles.headerActions}>
+          <TouchableOpacity onPress={() => router.push('/profile')} style={styles.profileButton}>
+            <Text style={styles.profileText}>Profile</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+            <Text style={styles.logoutText}>Sign Out</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Content */}
@@ -230,6 +234,19 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     color: '#1D1D1F',
+  },
+  headerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+  },
+  profileButton: {
+    padding: 8,
+  },
+  profileText: {
+    fontSize: 16,
+    color: '#007AFF',
+    fontWeight: '600',
   },
   logoutButton: {
     padding: 8,

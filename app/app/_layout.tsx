@@ -25,7 +25,23 @@ function AppNavigator() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="login" />
       <Stack.Screen name="projects" />
+      <Stack.Screen name="tasks" />
+      <Stack.Screen name="profile" />
       <Stack.Screen name="index" />
+      <Stack.Screen 
+        name="tasks/new" 
+        options={{ 
+          presentation: 'modal',
+          headerShown: false 
+        }} 
+      />
+      <Stack.Screen 
+        name="tasks/edit/[taskId]" 
+        options={{ 
+          presentation: 'modal',
+          headerShown: false 
+        }} 
+      />
     </Stack>
   );
 }
