@@ -120,8 +120,7 @@ function MyComponent() {
 ## 🔧 Prerequisites
 
 - **Node.js** 18+ 
-- **Yarn** (for mobile app)
-- **pnpm** (for backend)
+- **pnpm** (for both mobile app and backend)
 - **Task** (install with `brew install go-task/tap/go-task` on macOS)
 - **Expo CLI** (`npm install -g @expo/cli`)
 

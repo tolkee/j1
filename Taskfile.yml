@@ -29,7 +29,7 @@ tasks:
   install:app:
     internal: true
     dir: app
-    cmd: yarn install
+    cmd: pnpm install
 
   dev:
     desc: Start development environment (convex + app)
@@ -117,22 +117,22 @@ tasks:
   app:dev:
     desc: Start Expo development server
     dir: app
-    cmd: yarn start
+    cmd: pnpm start
 
   app:ios:
     desc: Run app on iOS simulator
     dir: app
-    cmd: yarn ios
+    cmd: pnpm ios
 
   app:android:
     desc: Run app on Android emulator
     dir: app
-    cmd: yarn android
+    cmd: pnpm android
 
   app:web:
     desc: Run app in web browser
     dir: app
-    cmd: yarn web
+    cmd: pnpm web
 
   app:build:
     desc: Build mobile app
@@ -142,7 +142,7 @@ tasks:
   app:test:
     desc: Run mobile app tests
     dir: app
-    cmd: yarn test
+    cmd: pnpm test
 
   # ========================================
   # SETUP & MAINTENANCE TASKS
@@ -225,7 +225,7 @@ tasks:
   lint:app:
     internal: true
     dir: app
-    cmd: yarn lint || echo "⚠️ App linting not configured"
+    cmd: pnpm lint || echo "⚠️ App linting not configured"
 
   lint:convex:
     internal: true
@@ -242,7 +242,7 @@ tasks:
   format:app:
     internal: true
     dir: app
-    cmd: yarn format || echo "⚠️ App formatting not configured"
+    cmd: pnpm format || echo "⚠️ App formatting not configured"
 
   format:convex:
     internal: true
@@ -281,4 +281,4 @@ tasks:
     internal: true
     dir: app
     cmd: |
-      echo "App dependencies:" && yarn list --depth=0 2>/dev/null | head -10 || echo "Run 'task install' first"
+      echo "App dependencies:" && pnpm list --depth=0 2>/dev/null | head -10 || echo "Run 'task install' first"
