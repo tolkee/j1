@@ -11,12 +11,9 @@ export const getAllUsers = query({
     v.object({
       _id: v.id("users"),
       _creationTime: v.number(),
-      email: v.optional(v.string()),
-      name: v.optional(v.string()),
+      username: v.optional(v.string()),
       image: v.optional(v.string()),
       emailVerified: v.optional(v.number()),
-      preferredName: v.optional(v.string()),
-      timezone: v.optional(v.string()),
       createdAt: v.optional(v.number()),
       updatedAt: v.optional(v.number()),
     })
@@ -181,12 +178,9 @@ export const getCurrentUser = query({
     v.object({
       _id: v.id("users"),
       _creationTime: v.number(),
-      email: v.optional(v.string()),
-      name: v.optional(v.string()),
+      username: v.optional(v.string()),
       image: v.optional(v.string()),
       emailVerified: v.optional(v.number()),
-      preferredName: v.optional(v.string()),
-      timezone: v.optional(v.string()),
       createdAt: v.optional(v.number()),
       updatedAt: v.optional(v.number()),
     }),
@@ -207,9 +201,7 @@ export const getCurrentUser = query({
  */
 export const updateProfile = mutation({
   args: {
-    name: v.optional(v.string()),
-    preferredName: v.optional(v.string()),
-    timezone: v.optional(v.string()),
+    username: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
@@ -223,10 +215,7 @@ export const updateProfile = mutation({
     }
 
     const updates: any = {};
-    if (args.name !== undefined) updates.name = args.name;
-    if (args.preferredName !== undefined)
-      updates.preferredName = args.preferredName;
-    if (args.timezone !== undefined) updates.timezone = args.timezone;
+    if (args.username !== undefined) updates.username = args.username;
     updates.updatedAt = Date.now();
 
     await ctx.db.patch(userId, updates);

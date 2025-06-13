@@ -7,8 +7,8 @@ interface AuthContextType {
   user: any | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string, name: string) => Promise<void>;
+  signIn: (username: string, password: string) => Promise<void>;
+  signUp: (username: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -21,12 +21,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const isLoading = user === undefined;
   const isAuthenticated = !!user;
 
-  const signIn = async (email: string, password: string) => {
-    await authSignIn("password", { email, password, flow: "signIn" });
+  const signIn = async (username: string, password: string) => {
+    await authSignIn("password", { email: username, password, flow: "signIn" });
   };
 
-  const signUp = async (email: string, password: string, name: string) => {
-    await authSignIn("password", { email, password, name, flow: "signUp" });
+  const signUp = async (username: string, password: string) => {
+    await authSignIn("password", { email: username, password, flow: "signUp" });
   };
 
   const value: AuthContextType = {

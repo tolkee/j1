@@ -7,19 +7,19 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import { Text, Input, Spinner, YStack, XStack, Button, H2 } from "tamagui";
-import { Mail, Lock, Bot } from "@tamagui/lucide-icons";
+import { User, Lock, Bot } from "@tamagui/lucide-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAuth } from "../../services/auth/contexts/AuthContext";
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { signIn, isLoading } = useAuth();
   const insets = useSafeAreaInsets();
 
   const handleLogin = async () => {
-    if (!email.trim()) {
-      Alert.alert("Error", "Please enter your email");
+    if (!username.trim()) {
+      Alert.alert("Error", "Please enter your username");
       return;
     }
 
@@ -29,7 +29,7 @@ export default function LoginScreen() {
     }
 
     try {
-      await signIn(email.trim(), password.trim());
+      await signIn(username.trim(), password.trim());
       router.replace("/");
     } catch (error) {
       Alert.alert(
@@ -95,7 +95,7 @@ export default function LoginScreen() {
             <YStack gap="$4" width="100%" maxWidth={400}>
               <YStack gap="$2">
                 <Text fontSize="$3" color="$color11" fontWeight="500">
-                  Email
+                  Username
                 </Text>
                 <XStack
                   alignItems="center"
@@ -104,13 +104,12 @@ export default function LoginScreen() {
                   paddingHorizontal="$3"
                   paddingVertical="$2"
                 >
-                  <Mail size="$1" color="$color11" />
+                  <User size="$1" color="$color11" />
                   <Input
                     flex={1}
-                    placeholder="Enter your email"
-                    value={email}
-                    onChangeText={setEmail}
-                    keyboardType="email-address"
+                    placeholder="Enter your username"
+                    value={username}
+                    onChangeText={setUsername}
                     autoCapitalize="none"
                     autoCorrect={false}
                     backgroundColor="transparent"

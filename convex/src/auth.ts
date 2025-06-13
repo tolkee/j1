@@ -5,12 +5,11 @@ import { DataModel } from "./_generated/dataModel";
 const CustomPassword = Password<DataModel>({
   profile(params) {
     return {
-      email: params.email as string,
-      name: params.name as string,
+      username: params.email as string, // Using email field to store username
     };
   },
 });
 
 export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
-  providers: [Password],
+  providers: [CustomPassword],
 });

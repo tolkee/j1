@@ -16,15 +16,14 @@ import {
   H2,
   ScrollView,
 } from "tamagui";
-import { Mail, Lock, User, UserPlus } from "@tamagui/lucide-icons";
+import { User, Lock, UserPlus, Eye, EyeOff } from "@tamagui/lucide-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAuth } from "../../services/auth/contexts/AuthContext";
 
 export default function RegisterScreen() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [name, setName] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const { signUp, isLoading } = useAuth();
   const insets = useSafeAreaInsets();
@@ -32,26 +31,14 @@ export default function RegisterScreen() {
   const validateForm = () => {
     const errors: string[] = [];
 
-    if (!email.trim()) {
-      errors.push("Email is required");
-    } else if (!/\S+@\S+\.\S+/.test(email.trim())) {
-      errors.push("Please enter a valid email address");
-    }
-
-    if (!name.trim()) {
-      errors.push("Name is required");
-    } else if (name.trim().length < 2) {
-      errors.push("Name must be at least 2 characters long");
+    if (!username.trim()) {
+      errors.push("Username is required");
+    } else if (username.trim().length < 3) {
+      errors.push("Username must be at least 3 characters long");
     }
 
     if (!password.trim()) {
       errors.push("Password is required");
-    } else if (password.length < 6) {
-      errors.push("Password must be at least 6 characters long");
-    }
-
-    if (password !== confirmPassword) {
-      errors.push("Passwords do not match");
     }
 
     setValidationErrors(errors);
@@ -68,7 +55,7 @@ export default function RegisterScreen() {
     }
 
     try {
-      await signUp(email.trim(), password.trim(), name.trim());
+      await signUp(username.trim(), password.trim());
       router.replace("/");
     } catch (error) {
       Alert.alert(
@@ -86,6 +73,10 @@ export default function RegisterScreen() {
     return validationErrors.find((error) =>
       error.toLowerCase().includes(field.toLowerCase())
     );
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const dismissKeyboard = () => {
@@ -150,7 +141,7 @@ export default function RegisterScreen() {
             <YStack gap="$4" width="100%" maxWidth={400}>
               <YStack gap="$2">
                 <Text fontSize="$3" color="$color11" fontWeight="500">
-                  Email
+                  Username
                 </Text>
                 <XStack
                   alignItems="center"
@@ -158,21 +149,20 @@ export default function RegisterScreen() {
                   borderRadius="$4"
                   paddingHorizontal="$3"
                   paddingVertical="$2"
-                  borderWidth={getFieldError("email") ? 1 : 0}
+                  borderWidth={getFieldError("username") ? 1 : 0}
                   borderColor="$red9"
                 >
-                  <Mail size="$1" color="$color11" />
+                  <User size="$1" color="$color11" />
                   <Input
                     flex={1}
-                    placeholder="Enter your email"
-                    value={email}
+                    placeholder="Enter your username"
+                    value={username}
                     onChangeText={(text) => {
-                      setEmail(text);
+                      setUsername(text);
                       if (validationErrors.length > 0) {
                         setValidationErrors([]);
                       }
                     }}
-                    keyboardType="email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
                     backgroundColor="transparent"
@@ -181,47 +171,9 @@ export default function RegisterScreen() {
                     fontSize="$4"
                   />
                 </XStack>
-                {getFieldError("email") && (
+                {getFieldError("username") && (
                   <Text fontSize="$2" color="$red10">
-                    {getFieldError("email")}
-                  </Text>
-                )}
-              </YStack>
-
-              <YStack gap="$2">
-                <Text fontSize="$3" color="$color11" fontWeight="500">
-                  Full Name
-                </Text>
-                <XStack
-                  alignItems="center"
-                  backgroundColor="$color3"
-                  borderRadius="$4"
-                  paddingHorizontal="$3"
-                  paddingVertical="$2"
-                  borderWidth={getFieldError("name") ? 1 : 0}
-                  borderColor="$red9"
-                >
-                  <User size="$1" color="$color11" />
-                  <Input
-                    flex={1}
-                    placeholder="Enter your full name"
-                    value={name}
-                    onChangeText={(text) => {
-                      setName(text);
-                      if (validationErrors.length > 0) {
-                        setValidationErrors([]);
-                      }
-                    }}
-                    autoCapitalize="words"
-                    backgroundColor="transparent"
-                    borderWidth={0}
-                    paddingHorizontal="$3"
-                    fontSize="$4"
-                  />
-                </XStack>
-                {getFieldError("name") && (
-                  <Text fontSize="$2" color="$red10">
-                    {getFieldError("name")}
+                    {getFieldError("username")}
                   </Text>
                 )}
               </YStack>
@@ -250,7 +202,7 @@ export default function RegisterScreen() {
                         setValidationErrors([]);
                       }
                     }}
-                    secureTextEntry
+                    secureTextEntry={!showPassword}
                     autoCapitalize="none"
                     autoCorrect={false}
                     backgroundColor="transparent"
@@ -258,50 +210,23 @@ export default function RegisterScreen() {
                     paddingHorizontal="$3"
                     fontSize="$4"
                   />
+                  <Button
+                    onPress={togglePasswordVisibility}
+                    backgroundColor="transparent"
+                    padding="$2"
+                    height="auto"
+                    minHeight="auto"
+                  >
+                    {showPassword ? (
+                      <EyeOff size="$1" color="$color11" />
+                    ) : (
+                      <Eye size="$1" color="$color11" />
+                    )}
+                  </Button>
                 </XStack>
                 {getFieldError("password") && (
                   <Text fontSize="$2" color="$red10">
                     {getFieldError("password")}
-                  </Text>
-                )}
-              </YStack>
-
-              <YStack gap="$2">
-                <Text fontSize="$3" color="$color11" fontWeight="500">
-                  Confirm Password
-                </Text>
-                <XStack
-                  alignItems="center"
-                  backgroundColor="$color3"
-                  borderRadius="$4"
-                  paddingHorizontal="$3"
-                  paddingVertical="$2"
-                  borderWidth={getFieldError("passwords do not match") ? 1 : 0}
-                  borderColor="$red9"
-                >
-                  <Lock size="$1" color="$color11" />
-                  <Input
-                    flex={1}
-                    placeholder="Confirm your password"
-                    value={confirmPassword}
-                    onChangeText={(text) => {
-                      setConfirmPassword(text);
-                      if (validationErrors.length > 0) {
-                        setValidationErrors([]);
-                      }
-                    }}
-                    secureTextEntry
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    backgroundColor="transparent"
-                    borderWidth={0}
-                    paddingHorizontal="$3"
-                    fontSize="$4"
-                  />
-                </XStack>
-                {getFieldError("passwords do not match") && (
-                  <Text fontSize="$2" color="$red10">
-                    {getFieldError("passwords do not match")}
                   </Text>
                 )}
               </YStack>
