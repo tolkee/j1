@@ -8,6 +8,8 @@ import {
   Alert,
   SafeAreaView,
   TextInput,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -37,7 +39,7 @@ export default function NewTaskScreen() {
   useEffect(() => {
     const timer = setTimeout(() => {
       titleInputRef.current?.focus();
-    }, 500); // Delay to ensure modal is fully presented
+    }, 100); // Reduced delay for better UX
     
     return () => clearTimeout(timer);
   }, []);
@@ -138,7 +140,17 @@ export default function NewTaskScreen() {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <KeyboardAvoidingView 
+        style={styles.flex1}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      >
+        <ScrollView 
+          style={styles.content} 
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={styles.scrollContent}
+        >
         {/* Title */}
         <View style={styles.section}>
           <Input
@@ -157,11 +169,13 @@ export default function NewTaskScreen() {
           <TextInput
             style={styles.descriptionInput}
             placeholder="Enter task description (optional)"
+            placeholderTextColor="#999"
             value={description}
             onChangeText={setDescription}
             multiline
             numberOfLines={4}
             textAlignVertical="top"
+            scrollEnabled={false}
           />
         </View>
 
@@ -183,7 +197,8 @@ export default function NewTaskScreen() {
             Format: YYYY-MM-DD (e.g., 2024-12-31)
           </Text>
         </View>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
@@ -226,9 +241,15 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#1D1D1F',
   },
+  flex1: {
+    flex: 1,
+  },
   content: {
     flex: 1,
     paddingHorizontal: 24,
+  },
+  scrollContent: {
+    paddingBottom: 40,
   },
   section: {
     marginTop: 24,

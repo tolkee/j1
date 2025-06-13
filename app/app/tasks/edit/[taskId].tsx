@@ -8,6 +8,8 @@ import {
   Alert,
   SafeAreaView,
   TextInput,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -55,7 +57,7 @@ export default function EditTaskScreen() {
       if (task) { // Only focus when task data is loaded
         titleInputRef.current?.focus();
       }
-    }, 500);
+    }, 100); // Reduced delay for better UX
     
     return () => clearTimeout(timer);
   }, [task]);
@@ -227,7 +229,17 @@ export default function EditTaskScreen() {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <KeyboardAvoidingView 
+        style={styles.flex1}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      >
+        <ScrollView 
+          style={styles.content} 
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={styles.scrollContent}
+        >
         {/* Title */}
         <View style={styles.section}>
           <Input
@@ -246,11 +258,13 @@ export default function EditTaskScreen() {
           <TextInput
             style={styles.descriptionInput}
             placeholder="Enter task description (optional)"
+            placeholderTextColor="#999"
             value={description}
             onChangeText={setDescription}
             multiline
             numberOfLines={4}
             textAlignVertical="top"
+            scrollEnabled={false}
           />
         </View>
 
@@ -287,7 +301,8 @@ export default function EditTaskScreen() {
             style={styles.deleteButton}
           />
         </View>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
@@ -330,9 +345,15 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#1D1D1F',
   },
+  flex1: {
+    flex: 1,
+  },
   content: {
     flex: 1,
     paddingHorizontal: 24,
+  },
+  scrollContent: {
+    paddingBottom: 40,
   },
   section: {
     marginTop: 24,
