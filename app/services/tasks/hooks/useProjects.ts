@@ -5,7 +5,7 @@ import type { UseProjectsReturn, ProjectFormData, Id } from "../types";
 
 export function useProjects(): UseProjectsReturn {
   // Queries
-  const projects = useQuery(api.tasks.projects.list);
+  const projects = useQuery(api.tasks.projects.list, {});
   
   // Mutations
   const createMutation = useMutation(api.tasks.projects.create);

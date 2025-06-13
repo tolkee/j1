@@ -1,5 +1,8 @@
 import { Id } from "@/common/lib/api";
 
+// Re-export Id for use in other files
+export type { Id };
+
 // Core data types matching the backend schema
 export interface Project {
   _id: Id<"projects">;

@@ -49,7 +49,6 @@ export function TasksProvider({ children }: TasksProviderProps) {
         projectId: targetProjectId,
         title: title.trim(),
         priority: "medium",
-        status: "todo",
       });
       return taskId;
     } finally {

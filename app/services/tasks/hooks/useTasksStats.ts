@@ -12,8 +12,8 @@ export function useTasksStats(options: UseTasksStatsOptions = {}): UseTasksStats
   
   // Queries
   const tasks = useQuery(api.tasks.tasks.list, projectId ? { projectId } : {});
-  const overdueTasks = useQuery(api.tasks.tasks.getOverdue);
-  const dueSoonTasks = useQuery(api.tasks.tasks.getDueSoon);
+  const overdueTasks = useQuery(api.tasks.tasks.getOverdue, {});
+  const dueSoonTasks = useQuery(api.tasks.tasks.getDueSoon, {});
 
   // Calculate stats from tasks
   const stats = useMemo((): ProjectStats | undefined => {

@@ -220,14 +220,14 @@ export const PROJECT_ICONS: ProjectIcon[] = [
 ];
 
 // Validation utilities
-export function validateTaskTitle(title: string): string | null {
+export function validateTaskTitle(title: string): { isValid: boolean; error?: string } {
   if (!title.trim()) {
-    return "Task title is required";
+    return { isValid: false, error: "Task title is required" };
   }
   if (title.length > 200) {
-    return "Task title must be less than 200 characters";
+    return { isValid: false, error: "Task title must be less than 200 characters" };
   }
-  return null;
+  return { isValid: true };
 }
 
 export function validateProjectName(name: string): string | null {
