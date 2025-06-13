@@ -14,11 +14,11 @@ import {
 import { Plus, Calendar, CheckCircle, Clock, AlertCircle } from "@tamagui/lucide-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { TasksProvider } from "../../services/tasks/contexts/TasksContext";
-import { useProjects, useTasks, useTasksStats } from "../../services/tasks/hooks";
-import { ProjectCard, TaskItem } from "../../services/tasks/components";
-import { sortProjects, sortTasks, filterTasks } from "../../services/tasks/lib/utils";
-import type { Task } from "../../services/tasks/types";
+import { TasksProvider } from "@/services/tasks/contexts/TasksContext";
+import { useProjects, useTasks, useTasksStats } from "@/services/tasks/hooks";
+import { ProjectCard, TaskItem } from "@/services/tasks/components";
+import { sortProjects, sortTasks, filterTasks } from "@/services/tasks/lib/utils";
+import type { Task } from "@/services/tasks/types";
 
 function TasksContent() {
   const insets = useSafeAreaInsets();

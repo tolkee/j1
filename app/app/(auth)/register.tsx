@@ -18,7 +18,7 @@ import {
 } from "tamagui";
 import { User, Lock, UserPlus, Eye, EyeOff, Mail } from "@tamagui/lucide-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useAuth } from "../../services/auth/contexts/AuthContext";
+import { useAuth } from "@/services/auth/contexts/AuthContext";
 
 export default function RegisterScreen() {
   const [username, setUsername] = useState("");

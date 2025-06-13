@@ -9,7 +9,7 @@ import { router } from "expo-router";
 import { Text, Input, Spinner, YStack, XStack, Button, H2 } from "tamagui";
 import { User, Lock, Bot } from "@tamagui/lucide-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useAuth } from "../../services/auth/contexts/AuthContext";
+import { useAuth } from "@/services/auth/contexts/AuthContext";
 
 export default function LoginScreen() {
   const [username, setUsername] = useState("");

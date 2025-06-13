@@ -5,7 +5,7 @@ import { ConvexAuthProvider } from "@convex-dev/auth/react";
 import { CurrentToast } from "./CurrentToast";
 import { config } from "../../tamagui.config";
 import { convex } from "../lib/convex";
-import { AuthProvider } from "../../services/auth/contexts/AuthContext";
+import { AuthProvider } from "@/services/auth/contexts/AuthContext";
 import * as SecureStore from "expo-secure-store";
 
 const secureStorage = {

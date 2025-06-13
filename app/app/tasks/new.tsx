@@ -15,11 +15,11 @@ import {
 import { ArrowLeft, Calendar, Flag, Tag, Save } from "@tamagui/lucide-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { TasksProvider } from "../../services/tasks/contexts/TasksContext";
-import { useProjects, useTasks } from "../../services/tasks/hooks";
-import { ProjectSelector } from "../../services/tasks/components";
-import { validateTaskTitle, getPriorityColor } from "../../services/tasks/lib/utils";
-import type { TaskPriority, TaskStatus, Id } from "../../services/tasks/types";
+import { TasksProvider } from "@/services/tasks/contexts/TasksContext";
+import { useProjects, useTasks } from "@/services/tasks/hooks";
+import { ProjectSelector } from "@/services/tasks/components";
+import { validateTaskTitle, getPriorityColor } from "@/services/tasks/lib/utils";
+import type { TaskPriority, TaskStatus, Id } from "@/services/tasks/types";
 
 function NewTaskContent() {
   const insets = useSafeAreaInsets();

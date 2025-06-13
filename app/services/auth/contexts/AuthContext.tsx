@@ -1,7 +1,7 @@
 import React, { createContext, useContext, ReactNode } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useQuery } from "convex/react";
-import { api } from "../../../common/lib/api";
+import { api } from "@/common/lib/api";
 
 interface AuthContextType {
   user: any | null;
