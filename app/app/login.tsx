@@ -28,13 +28,9 @@ export default function LoginScreen() {
   const scrollToInput = (inputRef: React.RefObject<TextInput>) => {
     setTimeout(() => {
       if (inputRef.current && scrollViewRef.current) {
-        inputRef.current.measureLayout(
-          scrollViewRef.current.getInnerViewNode(),
-          (x, y) => {
-            scrollViewRef.current?.scrollTo({ y: y - 100, animated: true });
-          },
-          () => {}
-        );
+        inputRef.current.measure((x, y, width, height, pageX, pageY) => {
+          scrollViewRef.current?.scrollTo({ y: pageY - 150, animated: true });
+        });
       }
     }, 100);
   };
@@ -123,7 +119,7 @@ export default function LoginScreen() {
             {/* Footer */}
             <View style={styles.footer}>
               <Text style={styles.footerText}>
-                Don't have an account? Contact your administrator.
+                New users will automatically get an account created.
               </Text>
             </View>
           </View>
