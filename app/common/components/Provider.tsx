@@ -18,7 +18,13 @@ export function Provider({
   children,
   ...rest
 }: Omit<TamaguiProviderProps, "config">) {
-  const colorScheme = useColorScheme() ?? "light";
+  let colorScheme: "light" | "dark" = "light";
+  try {
+    colorScheme = useColorScheme() ?? "light";
+  } catch (error) {
+    console.warn("useColorScheme failed in Provider:", error);
+    colorScheme = "light";
+  }
 
   return (
     <ConvexAuthProvider

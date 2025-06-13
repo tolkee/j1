@@ -65,7 +65,13 @@ function AuthRedirect() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme() ?? "light";
+  let colorScheme: "light" | "dark" = "light";
+  try {
+    colorScheme = useColorScheme() ?? "light";
+  } catch (error) {
+    console.warn("useColorScheme failed:", error);
+    colorScheme = "light";
+  }
   const theme = useTheme();
 
   return (
